@@ -1,34 +1,34 @@
 export const projects = [
   {
-    id: "itsroad",
-    name: "itsRoad",
-    category: "Professional · Logistik",
-    headline: "Enterprise Flutter im Produktiveinsatz.",
-    description:
-      "Professionelle Flutter-Entwicklung bei PIRAMIT GmbH in einem echten Logistik-Umfeld. Fokus auf App-Architektur, automatisierte Tests, Support-Analyse, Bug-Isolation und Feature-Delivery in einem realen Business-Kontext.",
-    stack: ["Flutter", "Dart", "MVVM", "Riverpod", "Freezed", "REST", "Firebase", "Codemagic"],
-    accent: "#54C5F8",
-    highlight: true,
-  },
-  {
     id: "lernekiai",
     name: "Lerne mit KI",
     category: "Education · KI",
     headline: "KI-gestütztes Lernen neu gedacht.",
     description:
-      "Flutter-App mit Riverpod-Architektur und MVVM-Pattern, die KI-basiertes Lernen für alle zugänglich macht. Saubere Schichtenarchitektur verbindet FastAPI-Backend mit adaptiver Lernlogik.",
+      "KI-gestützte Lern-App mit Flutter, Riverpod und MVVM. Automatische Generierung von Lerninhalten über OpenAI — saubere Schichtenarchitektur verbindet FastAPI-Backend mit adaptiver Lernlogik für Android und iOS.",
     stack: ["Flutter", "Dart", "Riverpod", "MVVM", "FastAPI", "OpenAI"],
     accent: "#34D399",
+    highlight: true,
   },
   {
     id: "kifor",
     name: "KiForKids",
-    category: "Education · KI · Backend",
+    category: "Education · KI · Mobile",
     headline: "KI-Plattform für Kinder.",
     description:
-      "Kindgerechte Lern-App mit FastAPI-Backend, OpenAI-Integration und n8n-Automatisierung. Verbindet KI-gestützte Inhaltsgenerierung mit Workflow-Orchestrierung für ein adaptives Lernerlebnis.",
-    stack: ["FastAPI", "Python", "OpenAI", "n8n", "Docker", "MariaDB"],
+      "Kindgerechte KI-App mit Flutter, Clean Architecture und Riverpod State Management. Verbindet OpenAI-gestützte Inhaltsgenerierung mit n8n-Automatisierung für ein adaptives, sicheres Lernerlebnis.",
+    stack: ["Flutter", "Dart", "Riverpod", "Clean Architecture", "OpenAI", "n8n"],
     accent: "#A78BFA",
+  },
+  {
+    id: "dreamfeed",
+    name: "Dream Feed",
+    category: "Mobile · Backend",
+    headline: "Social Feed. Eigenes Backend.",
+    description:
+      "Social-Media-inspirierte Flutter-App für Traumtagebücher mit Cloud-Synchronisation. End-to-End-Ownership vom API-Design und Datenmodellierung bis zur Flutter-UI und Riverpod State Management.",
+    stack: ["Flutter", "Dart", "Riverpod", "FastAPI", "Python", "MariaDB"],
+    accent: "#FB923C",
   },
   {
     id: "checker",
@@ -36,19 +36,9 @@ export const projects = [
     category: "Education · Mobile",
     headline: "Lernen. Quizzen. Weitermachen.",
     description:
-      "Mobile Lern-App mit integriertem Chatbot, Quiz-Engine und reichhaltigem Lerninhalt. Custom Flutter-UI mit backend-getriebenem Content, Gamification und Session-Tracking.",
-    stack: ["Flutter", "Dart", "Riverpod", "FastAPI", "Firebase"],
+      "Gamification-basierte Wissens-App mit Flutter, Riverpod und MVVM-Architektur. Custom Flutter-UI mit FastAPI-Backend, integriertem Chatbot, Quiz-Engine und Session-Tracking.",
+    stack: ["Flutter", "Dart", "Riverpod", "MVVM", "FastAPI", "Firebase"],
     accent: "#FBBF24",
-  },
-  {
-    id: "dreamfeed",
-    name: "Dream Feed",
-    category: "Mobile · Backend",
-    headline: "Eigener Feed. Eigenes Backend.",
-    description:
-      "Flutter-App mit vollständig selbst gebautem Backend. End-to-End-Ownership vom API-Design und Datenmodellierung bis zur Flutter-UI und State Management mit Cloud-Sync.",
-    stack: ["Flutter", "Dart", "FastAPI", "MariaDB", "Room"],
-    accent: "#FB923C",
   },
   {
     id: "megatron",
@@ -116,38 +106,42 @@ class ItemRepositoryImpl
 }`,
   },
   {
-    id: "native",
-    accent: "#A78BFA",
-    title: "Native iOS & Android",
-    subtitle: "Platform-first where it matters.",
+    id: "web",
+    accent: "#34D399",
+    title: "React & TypeScript",
+    subtitle: "Modern web. Clean components.",
     description:
-      "SwiftUI for iOS-native experiences. Kotlin for Android with Jetpack Compose. The right tool for the right platform — without compromise on UX or performance.",
-    bullets: ["SwiftUI + Combine", "Kotlin + Jetpack", "Core Data & Room", "iOS game & app development"],
-    code: `// SwiftUI declarative UI
-struct ContentView: View {
-  @StateObject private var vm
-    = ContentViewModel()
+      "Modern web apps with React, TypeScript and Vite. Component-driven architecture, responsive design, SEO optimisation and CI/CD-automated deployments via Docker and Nginx.",
+    bullets: ["React + TypeScript + Vite", "Responsive & SEO-optimised", "Docker & Nginx deployment", "CI/CD automation"],
+    code: `// React component with TypeScript
+interface ProjectCardProps {
+  name: string;
+  stack: string[];
+  accent: string;
+}
 
-  var body: some View {
-    NavigationStack {
-      List(vm.items) { item in
-        ItemRow(item: item)
-          .swipeActions {
-            DeleteButton(item: item)
-          }
-      }
-    }
-    .task { await vm.load() }
-  }
+export function ProjectCard({
+  name, stack, accent,
+}: ProjectCardProps) {
+  return (
+    <article style={{ borderColor: accent }}>
+      <h3>{name}</h3>
+      <ul>
+        {stack.map(tech => (
+          <li key={tech}>{tech}</li>
+        ))}
+      </ul>
+    </article>
+  );
 }`,
   },
   {
     id: "backend",
-    accent: "#34D399",
+    accent: "#A78BFA",
     title: "Backend & APIs",
     subtitle: "Python. FastAPI. Production-ready.",
     description:
-      "FastAPI backends that serve mobile apps, automation pipelines with n8n, AI integrations via OpenAI, and containerized deployments with Docker.",
+      "FastAPI backends that serve mobile apps, automation pipelines with n8n, AI integrations via OpenAI, and containerised deployments with Docker and Nginx.",
     bullets: ["FastAPI + Pydantic", "OpenAI & AI integration", "n8n workflow automation", "Docker & MariaDB"],
     code: `# FastAPI with clean dependency injection
 @router.get("/items", response_model=list[Item])
@@ -165,7 +159,7 @@ async def get_items(
 export const skills = {
   "Mobile": ["Flutter", "Dart", "SwiftUI", "Swift", "Kotlin"],
   "Architecture": ["MVVM", "Clean Architecture", "SOLID", "Riverpod", "Freezed"],
-  "Web & Backend": ["React", "TypeScript", "Python", "FastAPI", "REST API"],
+  "Web & Backend": ["React", "TypeScript", "Vite", "Python", "FastAPI"],
   "DevOps & Data": ["Docker", "Nginx", "CI/CD", "Firebase", "MariaDB"],
   "Tooling": ["Git", "Codemagic", "n8n", "Xcode", "VS Code", "Figma"],
   "Platforms": ["iOS", "Android", "Flutter Web", "EU Remote"],
