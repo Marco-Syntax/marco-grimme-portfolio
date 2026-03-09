@@ -5,12 +5,12 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { skills } from "@/lib/data";
 
 const CLUSTER_COLORS: Record<string, string> = {
-  "Mobile": "#54C5F8",
-  "Architecture": "#FF6B6B",
-  "Backend": "#34D399",
-  "Data": "#FBBF24",
-  "Tooling": "#A78BFA",
-  "Platforms": "#FB923C",
+  "Product & Design": "#A78BFA",
+  "Platforms": "#54C5F8",
+  "Web": "#34D399",
+  "Backend": "#FF6B6B",
+  "Cloud & Ops": "#FBBF24",
+  "AI & Automation": "#FB923C",
 };
 
 export default function Stack() {
@@ -34,7 +34,7 @@ export default function Stack() {
             variants={fadeUp}
             className="text-xs font-mono text-[rgba(26,24,22,0.35)] uppercase tracking-widest mb-4"
           >
-            Technologien & Tools
+            Tech-Infrastruktur
           </motion.p>
           <motion.h2
             variants={fadeUp}
@@ -43,6 +43,12 @@ export default function Stack() {
           >
             Der Stack.
           </motion.h2>
+          <motion.p
+            variants={fadeUp}
+            className="mt-4 text-base text-[rgba(26,24,22,0.5)] leading-relaxed max-w-xl"
+          >
+            Ein pragmatischer Stack: von UI bis Deploy.
+          </motion.p>
         </motion.div>
 
         {/* Skill clusters grid */}

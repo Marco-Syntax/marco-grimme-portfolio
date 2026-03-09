@@ -1,56 +1,115 @@
-export const projects = [
+export interface Project {
+  id: string;
+  name: string;
+  category: string;
+  headline: string;
+  description: string;
+  stack: string[];
+  accent: string;
+  highlight?: boolean;
+  type: "app" | "web";
+  link?: string;
+}
+
+export const projects: Project[] = [
   {
-    id: "lernekiai",
-    name: "Lerne mit KI",
-    category: "Education · KI",
-    headline: "KI-gestütztes Lernen neu gedacht.",
+    id: "business-organizer",
+    name: "Business Organizer",
+    category: "iPad · iOS · Offline-First",
+    headline: "Kunden, Projekte & Rechnungen. Ohne Abo.",
     description:
-      "KI-gestützte Lern-App mit Flutter, Riverpod und MVVM. Automatische Generierung von Lerninhalten über OpenAI — saubere Schichtenarchitektur verbindet FastAPI-Backend mit adaptiver Lernlogik für Android und iOS.",
-    stack: ["Flutter", "Dart", "Riverpod", "MVVM", "FastAPI", "OpenAI"],
-    accent: "#34D399",
+      "Klare iPad-App für Selbstständige und Freelancer: Kunden, Projekte, Aufgaben und Rechnungen an einem Ort – vollständig offline, einmaliger Kauf, keine Cloud-Pflicht.",
+    stack: ["SwiftUI", "Core Data", "iPad", "Offline-First", "iOS"],
+    accent: "#F59E0B",
     highlight: true,
+    type: "app",
+    link: "https://apps.apple.com/us/app/business-organizer/id6757642745",
   },
   {
-    id: "kifor",
-    name: "KiForKids",
-    category: "Education · KI · Mobile",
-    headline: "KI-Plattform für Kinder.",
-    description:
-      "Kindgerechte KI-App mit Flutter, Clean Architecture und Riverpod State Management. Verbindet OpenAI-gestützte Inhaltsgenerierung mit n8n-Automatisierung für ein adaptives, sicheres Lernerlebnis.",
-    stack: ["Flutter", "Dart", "Riverpod", "Clean Architecture", "OpenAI", "n8n"],
-    accent: "#A78BFA",
-  },
-  {
-    id: "dreamfeed",
-    name: "Dream Feed",
-    category: "Mobile · Backend",
-    headline: "Social Feed. Eigenes Backend.",
-    description:
-      "Social-Media-inspirierte Flutter-App für Traumtagebücher mit Cloud-Synchronisation. End-to-End-Ownership vom API-Design und Datenmodellierung bis zur Flutter-UI und Riverpod State Management.",
-    stack: ["Flutter", "Dart", "Riverpod", "FastAPI", "Python", "MariaDB"],
-    accent: "#FB923C",
-  },
-  {
-    id: "checker",
+    id: "checker-club",
     name: "Checker Club",
-    category: "Education · Mobile",
-    headline: "Lernen. Quizzen. Weitermachen.",
+    category: "iOS · Education · KI",
+    headline: "Video, Quiz & KI-Chatbot für Kinder.",
     description:
-      "Gamification-basierte Wissens-App mit Flutter, Riverpod und MVVM-Architektur. Custom Flutter-UI mit FastAPI-Backend, integriertem Chatbot, Quiz-Engine und Session-Tracking.",
-    stack: ["Flutter", "Dart", "Riverpod", "MVVM", "FastAPI", "Firebase"],
+      "Interaktive Lern-App für iOS: Video-Streaming mit AVKit, Firebase Real-time Sync und kindgerechter OpenAI-Chatbot mit Content-Filtering.",
+    stack: ["SwiftUI", "Firebase", "OpenAI", "AVKit", "Combine", "iOS"],
     accent: "#FBBF24",
+    type: "app",
+    link: "https://apps.apple.com/us/app/checker-club/id6742713281",
   },
   {
-    id: "megatron",
-    name: "Megatron",
-    category: "Finance · KI",
-    headline: "Modularer Trading-Analyse-Kernel.",
+    id: "dream-feed",
+    name: "Dream Feed",
+    category: "Flutter · FastAPI · KI",
+    headline: "Traumanalyse. Full-Stack. Cross-Platform.",
     description:
-      "Modularer Trading-Kernel mit unabhängigen Analyse-Modulen, OpenAI-Integration für Signal-Reasoning und sauberer Trennung zwischen Datenaufnahme, Analyse und Ausführungsschicht.",
-    stack: ["Python", "FastAPI", "OpenAI", "REST", "MariaDB", "Docker"],
-    accent: "#FF6B6B",
+      "Flutter-App mit GPT-gestützter Traumanalyse, FastAPI-Backend und MariaDB – Riverpod State Management nach Repository Pattern.",
+    stack: ["Flutter", "Dart", "Riverpod", "FastAPI", "MariaDB", "OpenAI"],
+    accent: "#FB923C",
+    type: "app",
+    link: "https://apps.apple.com/app/id6742332656",
   },
-] as const;
+  {
+    id: "nextlevel-mindset",
+    name: "NextLevel Mindset",
+    category: "iOS · Native · WidgetKit",
+    headline: "Tägliche Impulse. Widgets. Offline-First.",
+    description:
+      "Native iOS-App mit WidgetKit-Homescreen-Widgets, Core Data-Persistierung und vollständiger Offline-Verfügbarkeit – App Clips ready unter 10 MB.",
+    stack: ["SwiftUI", "WidgetKit", "Core Data", "App Clips", "iOS"],
+    accent: "#A78BFA",
+    type: "app",
+    link: "https://apps.apple.com/app/id6749188795",
+  },
+  {
+    id: "monster-run",
+    name: "Monster Run",
+    category: "Flutter · Flame · Game Dev",
+    headline: "60fps Endless Runner mit Flame Engine.",
+    description:
+      "2D Endless Runner: Component-basierte Spielarchitektur, Sprite-Animationen, Hitbox-Kollisionserkennung und Web-Deploy mit Flutter + Flame.",
+    stack: ["Flutter", "Flame Engine", "Dart", "Flutter Web", "Sprite Sheets"],
+    accent: "#FF6B6B",
+    type: "app",
+    link: "https://apps.apple.com/de/app/monster-run/id6752010094",
+  },
+  {
+    id: "business-digital",
+    name: "Business Digital",
+    category: "Web · Dashboard · B2B",
+    headline: "Backoffice als strukturierter Workflow.",
+    description:
+      "Web-Backoffice für Kunden, Projekte, Angebote und Belege – mit Dashboard, Pro-Nutzer-Datentrennung und Business Copilot auf eigenen Unternehmensdaten.",
+    stack: ["React", "TypeScript", "Firebase", "Vite", "Tailwind CSS"],
+    accent: "#38BDF8",
+    type: "web",
+    link: "https://tool.grimmedigital.de",
+  },
+  {
+    id: "lerne-mit-ki",
+    name: "Lerne mit KI",
+    category: "Web · EdTech · KI",
+    headline: "KI-Lernmaterialien für Klassen 5–13.",
+    description:
+      "Intelligente Web-Plattform für Lehrkräfte: lehrplankonforme Arbeitsblätter und Quizze per KI – Credit-System mit PayPal-Payment und Firebase-Auth.",
+    stack: ["React", "TypeScript", "OpenAI", "Firebase", "PayPal", "Docker"],
+    accent: "#34D399",
+    type: "web",
+    link: "https://lernemitki.de",
+  },
+  {
+    id: "kiforkids",
+    name: "KiForKids",
+    category: "Flutter Web · Backend · Automation",
+    headline: "Lernplattform. Full-Stack. KI-generiert.",
+    description:
+      "Umfassendstes Projekt: Flutter Web mit Riverpod + Freezed, FastAPI-Backend, n8n-Webhooks und KI-Content-Generierung via OpenAI, Anthropic und Perplexity.",
+    stack: ["Flutter Web", "FastAPI", "n8n", "Docker", "OpenAI", "Anthropic"],
+    accent: "#22D3EE",
+    type: "web",
+    link: "https://kiforkids.de",
+  },
+];
 
 export const features = [
   {
@@ -59,8 +118,8 @@ export const features = [
     title: "Flutter & Dart",
     subtitle: "Cross-platform at full quality.",
     description:
-      "Building production-grade Flutter apps with clean widget architecture, custom animations, platform channels and flavor-based multi-environment builds.",
-    bullets: ["Flutter Flavors & multi-env", "Riverpod state management", "Freezed models & codegen", "Platform channels & plugins"],
+      "Production-grade Flutter Apps mit Clean Widget Architecture, Custom Animations, Riverpod State Management und flavor-basierten Multi-Environment-Builds.",
+    bullets: ["Flutter Flavors & Multi-Env", "Riverpod State Management", "Freezed Models & Codegen", "Platform Channels & Plugins"],
     code: `// Riverpod provider with Freezed state
 @riverpod
 class AppViewModel extends _$AppViewModel {
@@ -85,8 +144,8 @@ class AppViewModel extends _$AppViewModel {
     title: "Clean Architecture",
     subtitle: "MVVM. SOLID. Testable.",
     description:
-      "Every layer has a single job. Data flows one way. Dependencies point inward. The result: systems that are maintainable, testable and ready for growth.",
-    bullets: ["MVVM + Presentation layer", "Use Cases & Domain layer", "Repository pattern", "Dependency injection"],
+      "Jede Schicht hat eine Verantwortung. Daten fließen in eine Richtung. Dependencies zeigen nach innen. Das Ergebnis: wartbare, testbare und wachstumsfähige Systeme.",
+    bullets: ["MVVM + Presentation Layer", "Use Cases & Domain Layer", "Repository Pattern", "Dependency Injection"],
     code: `// Clean separation of concerns
 abstract class ItemRepository {
   Future<Either<Failure, List<Item>>>
@@ -111,8 +170,8 @@ class ItemRepositoryImpl
     title: "React & TypeScript",
     subtitle: "Modern web. Clean components.",
     description:
-      "Modern web apps with React, TypeScript and Vite. Component-driven architecture, responsive design, SEO optimisation and CI/CD-automated deployments via Docker and Nginx.",
-    bullets: ["React + TypeScript + Vite", "Responsive & SEO-optimised", "Docker & Nginx deployment", "CI/CD automation"],
+      "Moderne Web-Apps mit React, TypeScript und Vite. Component-getriebene Architektur, responsives Design, SEO-Optimierung und CI/CD-automatisierte Deployments.",
+    bullets: ["React + TypeScript + Vite", "Responsive & SEO-optimiert", "Docker & Nginx Deployment", "CI/CD Automation"],
     code: `// React component with TypeScript
 interface ProjectCardProps {
   name: string;
@@ -141,8 +200,8 @@ export function ProjectCard({
     title: "Backend & APIs",
     subtitle: "Python. FastAPI. Production-ready.",
     description:
-      "FastAPI backends that serve mobile apps, automation pipelines with n8n, AI integrations via OpenAI, and containerised deployments with Docker and Nginx.",
-    bullets: ["FastAPI + Pydantic", "OpenAI & AI integration", "n8n workflow automation", "Docker & MariaDB"],
+      "FastAPI-Backends für Mobile Apps, Automatisierungspipelines mit n8n, KI-Integrationen via OpenAI und Claude – containerisiert mit Docker und Nginx.",
+    bullets: ["FastAPI + Pydantic", "OpenAI & KI-Integration", "n8n Workflow-Automation", "Docker & MariaDB"],
     code: `# FastAPI with clean dependency injection
 @router.get("/items", response_model=list[Item])
 async def get_items(
@@ -157,10 +216,10 @@ async def get_items(
 ] as const;
 
 export const skills = {
-  "Mobile": ["Flutter", "Dart", "SwiftUI", "Swift", "Kotlin"],
-  "Architecture": ["MVVM", "Clean Architecture", "SOLID", "Riverpod", "Freezed"],
-  "Web & Backend": ["React", "TypeScript", "Vite", "Python", "FastAPI"],
-  "DevOps & Data": ["Docker", "Nginx", "CI/CD", "Firebase", "MariaDB"],
-  "Tooling": ["Git", "Codemagic", "n8n", "Xcode", "VS Code", "Figma"],
-  "Platforms": ["iOS", "Android", "Flutter Web", "EU Remote"],
+  "Product & Design": ["Figma", "Design Systems", "Prototyping", "Responsive Patterns"],
+  "Platforms": ["Flutter · Dart", "SwiftUI · UIKit", "Kotlin · Android", "Flutter Web", "Riverpod · Freezed"],
+  "Web": ["React · Vite", "TypeScript", "Tailwind CSS", "Node.js · Express"],
+  "Backend": ["Python · FastAPI", "MariaDB", "REST · JSON", "JWT · Auth", "Pydantic", "PayPal · Stripe"],
+  "Cloud & Ops": ["Docker · Compose", "Nginx", "CI/CD", "Firebase", "netcup · n8n", "Let's Encrypt"],
+  "AI & Automation": ["OpenAI · Claude", "Perplexity", "Vector Embeddings", "n8n Workflows"],
 } as const;
