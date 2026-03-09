@@ -2,6 +2,7 @@ import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Hero from "@/components/sections/Hero";
+import PhoneBuilder from "@/components/sections/PhoneBuilder";
 import Anatomy from "@/components/sections/Anatomy";
 import FeatureSection from "@/components/sections/FeatureSection";
 import Projects from "@/components/sections/Projects";
@@ -20,7 +21,10 @@ export default function Home() {
         {/* 1. Hero — full viewport, dark, animated ring + text reveal */}
         <Hero />
 
-        {/* 2. Anatomy — light bg, sticky scroll, exploded architecture diagram */}
+        {/* 2. PhoneBuilder — dark, 400vh sticky, phone assembles part by part */}
+        <PhoneBuilder />
+
+        {/* 3. Anatomy — light bg, sticky scroll, exploded architecture diagram */}
         <Anatomy />
 
         {/* 3. Feature sections — dark, left-text / right-code, 4 panels */}

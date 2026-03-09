@@ -53,8 +53,8 @@ export default function Contact() {
             variants={fadeUp}
             className="text-base md:text-lg text-[rgba(240,237,230,0.45)] leading-relaxed mb-12 max-w-lg"
           >
-            Auf der Suche nach einem Flutter-Entwickler mit echtem Architektur-Anspruch?
-            Ich freue mich auf das Gespräch — ob für ein Projekt, eine Stelle oder Freelance.
+            Spezialist für Mobile App Entwicklung, Web-Apps und individuelle Business-Software.
+            Remote verfügbar für Teams in Deutschland und der EU — ob Projekt, Stelle oder Freelance.
           </motion.p>
 
           {/* CTA row */}
@@ -63,7 +63,7 @@ export default function Contact() {
             className="flex flex-wrap gap-4 mb-16"
           >
             <motion.a
-              href="mailto:marco@grimme.dev"
+              href="mailto:mgrimme954@gmail.com"
               className="group flex items-center gap-4 px-8 py-4 rounded-full bg-[#f0ede6] text-[#0f0e0c] font-semibold text-sm"
               whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
               whileTap={{ scale: 0.98 }}
@@ -73,7 +73,7 @@ export default function Contact() {
             </motion.a>
 
             <motion.a
-              href="https://github.com/marcogrimme"
+              href="https://github.com/Marco-Syntax"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-4 px-8 py-4 rounded-full border border-[rgba(240,237,230,0.15)] text-[rgba(240,237,230,0.65)] font-medium text-sm"
@@ -90,7 +90,7 @@ export default function Contact() {
             </motion.a>
 
             <motion.a
-              href="https://linkedin.com/in/marcogrimme"
+              href="https://linkedin.com/in/marco-grimme"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-4 px-8 py-4 rounded-full border border-[rgba(240,237,230,0.15)] text-[rgba(240,237,230,0.65)] font-medium text-sm"
