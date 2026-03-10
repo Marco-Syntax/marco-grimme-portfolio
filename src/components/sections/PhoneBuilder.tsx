@@ -272,10 +272,10 @@ export default function PhoneBuilder() {
                 >
                   <div>
                     <div className="text-[12px] font-[700] text-[#54C5F8] leading-none mb-[3px]">
-                      itsRoad
+                      Meine Apps
                     </div>
                     <div className="text-[8px] font-mono text-[rgba(240,237,230,0.3)] uppercase tracking-widest">
-                      Aufträge · Heute
+                      Projekte · Portfolio
                     </div>
                   </div>
                   <div className="w-7 h-7 rounded-full bg-[rgba(84,197,248,0.08)] border border-[rgba(84,197,248,0.18)] flex items-center justify-center">
@@ -289,96 +289,135 @@ export default function PhoneBuilder() {
                   style={{ top: 78, opacity: headerOpacity }}
                 />
 
-                {/* ── CARD 1 — Active route ─────────────────────────── */}
+                {/* ── CARD 1 — Checker Club ─────────────────────────── */}
                 <motion.div
                   className="absolute left-4 right-4 rounded-2xl p-3"
                   style={{
                     top: 90,
-                    background: "rgba(84,197,248,0.06)",
-                    border: "1px solid rgba(84,197,248,0.14)",
+                    background: "rgba(251,191,36,0.06)",
+                    border: "1px solid rgba(251,191,36,0.18)",
                     opacity: c1Opacity,
                     y: c1Y,
                   }}
                 >
-                  <div className="flex items-start justify-between mb-[7px]">
-                    <div>
-                      <div className="text-[10px] font-[600] text-[rgba(240,237,230,0.85)] mb-[2px]">
-                        Route #2847
+                  <div className="flex items-center gap-2 mb-[8px]">
+                    <div
+                      className="w-7 h-7 rounded-xl flex-shrink-0 flex items-center justify-center"
+                      style={{ background: "rgba(251,191,36,0.15)" }}
+                    >
+                      <div className="w-[10px] h-[10px] rounded-full bg-[#FBBF24]" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[10px] font-[700] text-[rgba(240,237,230,0.9)] leading-none mb-[2px]">
+                        Checker Club
                       </div>
-                      <div className="text-[8px] font-mono text-[rgba(240,237,230,0.35)]">
-                        Göttingen → Hamburg
+                      <div className="text-[7.5px] font-mono text-[rgba(240,237,230,0.35)]">
+                        iOS · Education · KI
                       </div>
                     </div>
-                    <span className="text-[7.5px] px-[6px] py-[2px] rounded-full bg-[rgba(52,211,153,0.14)] text-[#34D399] font-mono font-semibold">
-                      AKTIV
+                    <span className="text-[7px] px-[5px] py-[2px] rounded-full font-mono font-semibold flex-shrink-0"
+                      style={{ background: "rgba(251,191,36,0.14)", color: "#FBBF24" }}>
+                      App Store
                     </span>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="text-[8px] text-[rgba(240,237,230,0.38)]">
-                      <span className="text-[rgba(240,237,230,0.8)] font-mono">284 km</span>
-                      {" "}Distanz
-                    </div>
-                    <div className="text-[8px] text-[rgba(240,237,230,0.38)]">
-                      <span className="text-[rgba(240,237,230,0.8)] font-mono">3h 12m</span>
-                      {" "}ETA
-                    </div>
-                  </div>
-                  {/* Progress bar */}
-                  <div className="mt-[7px] w-full h-[3px] rounded-full bg-[rgba(240,237,230,0.06)]">
-                    <div className="h-full w-[58%] rounded-full bg-[rgba(84,197,248,0.6)]" />
+                  <div className="flex flex-wrap gap-[4px]">
+                    {["SwiftUI", "Firebase", "OpenAI"].map((t) => (
+                      <span
+                        key={t}
+                        className="text-[7px] font-mono px-[5px] py-[1.5px] rounded-full"
+                        style={{ background: "rgba(251,191,36,0.10)", color: "rgba(251,191,36,0.8)" }}
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
                 </motion.div>
 
-                {/* ── CARD 2 — Pending ──────────────────────────────── */}
+                {/* ── CARD 2 — Dream Feed ───────────────────────────── */}
                 <motion.div
                   className="absolute left-4 right-4 rounded-2xl p-3"
                   style={{
                     top: 196,
-                    background: "rgba(15,14,12,0.5)",
-                    border: "1px solid rgba(240,237,230,0.07)",
+                    background: "rgba(251,146,60,0.06)",
+                    border: "1px solid rgba(251,146,60,0.15)",
                     opacity: c2Opacity,
                     y: c2Y,
                   }}
                 >
-                  <div className="flex items-center justify-between mb-[6px]">
-                    <div className="text-[10px] font-[600] text-[rgba(240,237,230,0.65)]">
-                      Route #2851
+                  <div className="flex items-center gap-2 mb-[8px]">
+                    <div
+                      className="w-7 h-7 rounded-xl flex-shrink-0 flex items-center justify-center"
+                      style={{ background: "rgba(251,146,60,0.15)" }}
+                    >
+                      <div className="w-[10px] h-[10px] rounded-full bg-[#FB923C]" />
                     </div>
-                    <span className="text-[7.5px] px-[6px] py-[2px] rounded-full bg-[rgba(251,191,36,0.13)] text-[#FBBF24] font-mono">
-                      WARTET
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[10px] font-[700] text-[rgba(240,237,230,0.9)] leading-none mb-[2px]">
+                        Dream Feed
+                      </div>
+                      <div className="text-[7.5px] font-mono text-[rgba(240,237,230,0.35)]">
+                        Flutter · FastAPI · KI
+                      </div>
+                    </div>
+                    <span className="text-[7px] px-[5px] py-[2px] rounded-full font-mono font-semibold flex-shrink-0"
+                      style={{ background: "rgba(251,146,60,0.13)", color: "#FB923C" }}>
+                      App Store
                     </span>
                   </div>
-                  <div className="flex gap-4 mb-[8px]">
-                    <div className="text-[8px] text-[rgba(240,237,230,0.35)] font-mono">Berlin → München</div>
-                  </div>
-                  <div className="w-full h-[3px] rounded-full bg-[rgba(240,237,230,0.06)]">
-                    <div className="h-full w-[22%] rounded-full bg-[rgba(251,191,36,0.5)]" />
+                  <div className="flex flex-wrap gap-[4px]">
+                    {["Flutter", "Dart", "Riverpod"].map((t) => (
+                      <span
+                        key={t}
+                        className="text-[7px] font-mono px-[5px] py-[1.5px] rounded-full"
+                        style={{ background: "rgba(251,146,60,0.10)", color: "rgba(251,146,60,0.8)" }}
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
                 </motion.div>
 
-                {/* ── CARD 3 — Delivered ────────────────────────────── */}
+                {/* ── CARD 3 — NextLevel Mindset ────────────────────── */}
                 <motion.div
                   className="absolute left-4 right-4 rounded-2xl p-3"
                   style={{
                     top: 286,
-                    background: "rgba(15,14,12,0.5)",
-                    border: "1px solid rgba(240,237,230,0.07)",
+                    background: "rgba(167,139,250,0.06)",
+                    border: "1px solid rgba(167,139,250,0.13)",
                     opacity: c3Opacity,
                     y: c3Y,
                   }}
                 >
-                  <div className="flex items-center justify-between mb-[6px]">
-                    <div className="text-[10px] font-[600] text-[rgba(240,237,230,0.65)]">
-                      Route #2855
+                  <div className="flex items-center gap-2 mb-[8px]">
+                    <div
+                      className="w-7 h-7 rounded-xl flex-shrink-0 flex items-center justify-center"
+                      style={{ background: "rgba(167,139,250,0.15)" }}
+                    >
+                      <div className="w-[10px] h-[10px] rounded-full bg-[#A78BFA]" />
                     </div>
-                    <span className="text-[7.5px] px-[6px] py-[2px] rounded-full bg-[rgba(167,139,250,0.14)] text-[#A78BFA] font-mono">
-                      GELIEFERT
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[10px] font-[700] text-[rgba(240,237,230,0.9)] leading-none mb-[2px]">
+                        NextLevel Mindset
+                      </div>
+                      <div className="text-[7.5px] font-mono text-[rgba(240,237,230,0.35)]">
+                        iOS · WidgetKit · Native
+                      </div>
+                    </div>
+                    <span className="text-[7px] px-[5px] py-[2px] rounded-full font-mono font-semibold flex-shrink-0"
+                      style={{ background: "rgba(167,139,250,0.13)", color: "#A78BFA" }}>
+                      App Store
                     </span>
                   </div>
-                  {/* Skeleton lines */}
-                  <div className="flex flex-col gap-[5px]">
-                    <div className="w-[85%] h-[5px] rounded-full bg-[rgba(240,237,230,0.06)]" />
-                    <div className="w-[55%] h-[5px] rounded-full bg-[rgba(240,237,230,0.04)]" />
+                  <div className="flex flex-wrap gap-[4px]">
+                    {["SwiftUI", "WidgetKit", "Core Data"].map((t) => (
+                      <span
+                        key={t}
+                        className="text-[7px] font-mono px-[5px] py-[1.5px] rounded-full"
+                        style={{ background: "rgba(167,139,250,0.10)", color: "rgba(167,139,250,0.8)" }}
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
                 </motion.div>
 
