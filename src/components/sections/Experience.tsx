@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { staggerContainer, viewportOnce } from "@/lib/motion";
+import { staggerContainer, fadeUpDramatic, viewportOnce } from "@/lib/motion";
 
 const career = [
   {
@@ -96,7 +96,6 @@ export default function Experience() {
       className="relative bg-[#0f0e0c] py-28 md:py-36 px-6 md:px-12 overflow-hidden"
     >
       <div className="absolute inset-0 grid-dots pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/5" />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
 
@@ -116,7 +115,7 @@ export default function Experience() {
               Beruflicher Werdegang
             </motion.p>
             <motion.h2
-              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.05 } } }}
+              variants={fadeUpDramatic}
               className="font-[800] text-[#f0ede6] leading-[0.93] tracking-tight"
               style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)" }}
             >

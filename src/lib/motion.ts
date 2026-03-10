@@ -10,6 +10,17 @@ export const fadeUp: Variants = {
   },
 };
 
+// Dramatic reveal: bigger distance, slightly slower
+export const fadeUpDramatic: Variants = {
+  hidden: { opacity: 0, y: 60, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.85, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
+
 // Staggered container
 export const staggerContainer: Variants = {
   hidden: {},
@@ -27,6 +38,17 @@ export const staggerContainerFast: Variants = {
     transition: {
       staggerChildren: 0.06,
       delayChildren: 0,
+    },
+  },
+};
+
+// Slow stagger — for grid items
+export const staggerContainerSlow: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
     },
   },
 };
@@ -72,6 +94,17 @@ export const scaleIn: Variants = {
   },
 };
 
+// Scale reveal with blur
+export const scaleInBlur: Variants = {
+  hidden: { opacity: 0, scale: 0.92, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
+
 // Line draw (for SVG strokes)
 export const drawLine: Variants = {
   hidden: { pathLength: 0, opacity: 0 },
@@ -79,6 +112,17 @@ export const drawLine: Variants = {
     pathLength: 1,
     opacity: 1,
     transition: { duration: 1.2, ease: "easeInOut" },
+  },
+};
+
+// Flip in (for cards)
+export const flipIn: Variants = {
+  hidden: { opacity: 0, rotateY: -15, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    rotateY: 0,
+    scale: 1,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 };
 

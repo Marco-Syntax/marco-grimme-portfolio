@@ -1,6 +1,8 @@
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import TechTicker from "@/components/ui/TechTicker";
+import SectionDivider from "@/components/ui/SectionDivider";
 import Hero from "@/components/sections/Hero";
 import PhoneBuilder from "@/components/sections/PhoneBuilder";
 import WebBuilder from "@/components/sections/WebBuilder";
@@ -19,8 +21,11 @@ export default function Home() {
       <Navigation />
 
       <main>
-        {/* 1. Hero — full viewport, dark, animated ring + text reveal */}
+        {/* 1. Hero — full viewport, dark, animated ring + text reveal + stat counters */}
         <Hero />
+
+        {/* Tech ticker — infinite horizontal scroll strip */}
+        <TechTicker />
 
         {/* 2. PhoneBuilder — dark #0f0e0c, 400vh sticky, phone assembles part by part */}
         <PhoneBuilder />
@@ -28,8 +33,14 @@ export default function Home() {
         {/* 3. WebBuilder — dark #0a0f18, 400vh sticky, browser window assembles */}
         <WebBuilder />
 
+        {/* Transition: dark → light */}
+        <SectionDivider variant="dark-to-light" />
+
         {/* 4. Anatomy — light bg, sticky scroll, exploded architecture diagram */}
         <Anatomy />
+
+        {/* Transition: light → dark */}
+        <SectionDivider variant="light-to-dark" />
 
         {/* 5. Feature sections — dark, left-text / right-code, 4 panels */}
         {features.map((feature, index) => (
@@ -46,16 +57,22 @@ export default function Home() {
           />
         ))}
 
-        {/* 4. Projects — dark, featured + grid */}
+        {/* 6. Projects — dark, featured + grid */}
         <Projects />
 
-        {/* 5. Stack — light bg, skill clusters */}
+        {/* Transition: dark → light */}
+        <SectionDivider variant="dark-to-light" />
+
+        {/* 7. Stack — light bg, skill clusters */}
         <Stack />
 
-        {/* 6. Experience / Why Marco */}
+        {/* Transition: light → dark */}
+        <SectionDivider variant="light-to-dark" />
+
+        {/* 8. Experience / Why Marco */}
         <Experience />
 
-        {/* 7. Contact — final CTA */}
+        {/* 9. Contact — final CTA with navigation grid */}
         <Contact />
       </main>
 

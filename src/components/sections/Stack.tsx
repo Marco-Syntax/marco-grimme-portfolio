@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
+import { fadeUp, fadeUpDramatic, staggerContainer, viewportOnce } from "@/lib/motion";
 import { skills } from "@/lib/data";
 
 const CLUSTER_COLORS: Record<string, string> = {
@@ -37,7 +37,7 @@ export default function Stack() {
             Tech-Infrastruktur
           </motion.p>
           <motion.h2
-            variants={fadeUp}
+            variants={fadeUpDramatic}
             className="font-[800] text-[#1a1816] leading-[0.93] tracking-tight"
             style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)" }}
           >
@@ -59,17 +59,35 @@ export default function Stack() {
               return (
                 <motion.div
                   key={cluster}
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="visible"
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    transition: {
+                      duration: 0.6,
+                      delay: clusterIndex * 0.1,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    },
+                  }}
                   viewport={viewportOnce}
-                  transition={{ delay: clusterIndex * 0.07 }}
-                  className="rounded-2xl border p-6 md:p-8 relative overflow-hidden"
+                  className="group rounded-2xl border p-6 md:p-8 relative overflow-hidden transition-all duration-300"
                   style={{
                     borderColor: `${color}20`,
                     background: "rgba(255,255,255,0.03)",
                   }}
+                  whileHover={{
+                    borderColor: `${color}40`,
+                    y: -4,
+                    transition: { duration: 0.2 },
+                  }}
                 >
+                  {/* Top edge glow on hover */}
+                  <div
+                    className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{ background: `linear-gradient(90deg, transparent, ${color}60, transparent)` }}
+                  />
+
                   {/* Cluster background accent */}
                   <div
                     className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl pointer-events-none opacity-20"
@@ -81,7 +99,7 @@ export default function Stack() {
                     <div className="w-2 h-2 rounded-full" style={{ background: color }} />
                     <p
                       className="text-xs font-mono uppercase tracking-widest font-semibold"
-                      style={{ color: `${color}` }}
+                      style={{ color }}
                     >
                       {cluster}
                     </p>
@@ -99,18 +117,19 @@ export default function Stack() {
                       <motion.span
                         key={skill}
                         variants={{
-                          hidden: { opacity: 0, scale: 0.85 },
+                          hidden: { opacity: 0, scale: 0.8, filter: "blur(4px)" },
                           visible: {
                             opacity: 1,
                             scale: 1,
+                            filter: "blur(0px)",
                             transition: {
-                              duration: 0.4,
-                              delay: i * 0.05,
+                              duration: 0.45,
+                              delay: i * 0.06,
                               ease: [0.25, 0.46, 0.45, 0.94],
                             },
                           },
                         }}
-                        className="text-xs font-mono px-3 py-1.5 rounded-full border relative"
+                        className="text-xs font-mono px-3 py-1.5 rounded-full border relative cursor-default"
                         style={{
                           borderColor: `${color}20`,
                           color: "rgba(26,24,22,0.75)",
@@ -118,9 +137,9 @@ export default function Stack() {
                         }}
                         whileHover={{
                           borderColor: `${color}50`,
-                          background: `${color}18`,
+                          background: `${color}20`,
                           color: "#1a1816",
-                          scale: 1.04,
+                          scale: 1.06,
                           transition: { duration: 0.15 },
                         }}
                       >

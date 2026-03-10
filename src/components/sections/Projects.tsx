@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
+import { fadeUp, fadeUpDramatic, staggerContainer, staggerContainerSlow, viewportOnce } from "@/lib/motion";
 import { projects, type Project } from "@/lib/data";
 
 // ─── Small project card (Apps + Web grid) ────────────────────────────────────
@@ -9,22 +9,23 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <motion.article
       variants={{
-        hidden: { opacity: 0, y: 28 },
+        hidden: { opacity: 0, y: 40, scale: 0.95 },
         visible: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.55, delay: index * 0.07, ease: [0.25, 0.46, 0.45, 0.94] },
+          scale: 1,
+          transition: { duration: 0.6, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] },
         },
       }}
-      className="group relative rounded-2xl border overflow-hidden flex flex-col cursor-default transition-all duration-400"
+      className="group relative rounded-2xl border overflow-hidden flex flex-col cursor-default"
       style={{
         borderColor: `${project.accent}15`,
         background: "rgba(255,255,255,0.02)",
       }}
       whileHover={{
         borderColor: `${project.accent}35`,
-        background: "rgba(255,255,255,0.035)",
-        y: -4,
+        background: "rgba(255,255,255,0.04)",
+        y: -6,
         transition: { duration: 0.2 },
       }}
     >
@@ -34,10 +35,20 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         style={{ background: `linear-gradient(90deg, transparent, ${project.accent}70, transparent)` }}
       />
 
-      <div className="p-6 md:p-7 flex-1">
+      {/* Hover glow background */}
+      <div
+        className="absolute top-0 right-0 w-[200px] h-[200px] rounded-full blur-[80px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ background: project.accent, opacity: 0 }}
+      />
+
+      <div className="p-6 md:p-7 flex-1 relative">
         {/* Category + dot */}
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-1.5 h-1.5 rounded-full" style={{ background: project.accent }} />
+          <motion.div
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ background: project.accent }}
+            whileHover={{ scale: 1.5 }}
+          />
           <span className="text-[10px] font-mono text-[rgba(240,237,230,0.3)] uppercase tracking-widest">
             {project.category}
           </span>
@@ -103,10 +114,10 @@ function SectionLabel({ label, sub, accent }: { label: string; sub: string; acce
   return (
     <motion.div
       className="mb-8 flex items-end justify-between"
-      variants={fadeUp}
-      initial="hidden"
-      whileInView="visible"
+      initial={{ opacity: 0, x: -30 }}
+      whileInView={{ opacity: 1, x: 0 }}
       viewport={viewportOnce}
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div>
         <p className="text-xs font-mono uppercase tracking-widest mb-2" style={{ color: `${accent}80` }}>
@@ -114,7 +125,14 @@ function SectionLabel({ label, sub, accent }: { label: string; sub: string; acce
         </p>
         <p className="text-sm text-[rgba(240,237,230,0.35)]">{sub}</p>
       </div>
-      <div className="hidden md:block h-[1px] flex-1 mx-8" style={{ background: `${accent}15` }} />
+      <motion.div
+        className="hidden md:block h-[1px] flex-1 mx-8"
+        style={{ background: `${accent}15` }}
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={viewportOnce}
+        transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+      />
     </motion.div>
   );
 }
@@ -148,7 +166,7 @@ export default function Projects() {
           >
             Ausgewählte Arbeiten
           </motion.p>
-          <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end gap-4 md:gap-10">
+          <motion.div variants={fadeUpDramatic} className="flex flex-col md:flex-row md:items-end gap-4 md:gap-10">
             <h2
               className="font-[800] text-[#f0ede6] leading-[0.93] tracking-tight"
               style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)" }}
@@ -164,10 +182,10 @@ export default function Projects() {
         {/* ── Spotlight — full-width featured card ── */}
         <motion.div
           className="mb-16"
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 50, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={viewportOnce}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <motion.article
             className="group relative rounded-2xl border overflow-hidden"
@@ -295,7 +313,7 @@ export default function Projects() {
         />
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-16"
-          variants={staggerContainer}
+          variants={staggerContainerSlow}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
@@ -313,7 +331,7 @@ export default function Projects() {
         />
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5"
-          variants={staggerContainer}
+          variants={staggerContainerSlow}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}

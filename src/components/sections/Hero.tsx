@@ -1,11 +1,52 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, type MotionValue, type Variants } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, type MotionValue, type Variants } from "framer-motion";
 
 const ROLE_WORDS = ["Mobile", "App", "Developer."];
 const TAGLINE = "Flutter · SwiftUI · Kotlin · Python · FastAPI";
 
+const STATS = [
+  { value: 8, suffix: "+", label: "Apps gebaut", color: "#54C5F8" },
+  { value: 5, suffix: "", label: "Plattformen", color: "#34D399" },
+  { value: 92, suffix: "%", label: "IHK-Note", color: "#FBBF24" },
+];
+
+/* ── Animated counter ────────────────────────────────────────────────────── */
+function AnimatedStat({ value, suffix, label, color, delay }: {
+  value: number; suffix: string; label: string; color: string; delay: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="flex flex-col"
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      <div className="flex items-baseline gap-0.5">
+        <motion.span
+          className="text-2xl md:text-3xl font-[800] tabular-nums"
+          style={{ color }}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.4, delay: delay + 0.2 }}
+        >
+          {isInView ? value : 0}
+        </motion.span>
+        <span className="text-lg font-[700]" style={{ color }}>{suffix}</span>
+      </div>
+      <span className="text-[10px] font-mono text-[rgba(240,237,230,0.3)] uppercase tracking-widest mt-1">
+        {label}
+      </span>
+    </motion.div>
+  );
+}
+
+/* ── Hero ring (animated SVG) ────────────────────────────────────────────── */
 function HeroRing({ progress }: { progress: MotionValue<number> }) {
   const rotate = useTransform(progress, [0, 1], [0, 180]);
   const scale = useTransform(progress, [0, 0.4, 1], [1, 1.05, 0.9]);
@@ -19,9 +60,9 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
         {/* Outer ring - multicolor arc */}
         <motion.circle
           cx="250" cy="250" r="230"
-          fill="none" strokeWidth="1.5"
+          fill="none" strokeWidth="2"
           stroke="url(#heroGrad)"
-          strokeOpacity={0.7}
+          strokeOpacity={0.8}
           strokeDasharray="1440"
           strokeLinecap="round"
           style={{ rotate, transformOrigin: "50% 50%" }}
@@ -36,19 +77,29 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "50% 50%" }}
         />
-        {/* Inner ring - solid thin */}
+        {/* Inner ring */}
         <motion.circle
           cx="250" cy="250" r="185"
           fill="none" strokeWidth="0.5"
           stroke="rgba(240,237,230,0.08)"
         />
+        {/* Inner-inner ring */}
+        <motion.circle
+          cx="250" cy="250" r="160"
+          fill="none" strokeWidth="0.3"
+          stroke="rgba(240,237,230,0.05)"
+          strokeDasharray="2 6"
+          animate={{ rotate: [360, 0] }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "50% 50%" }}
+        />
         {/* Tick marks on outer ring */}
-        {Array.from({ length: 60 }).map((_, i) => {
-          const angle = (i / 60) * 360;
+        {Array.from({ length: 72 }).map((_, i) => {
+          const angle = (i / 72) * 360;
           const rad = (angle * Math.PI) / 180;
-          const isMajor = i % 5 === 0;
+          const isMajor = i % 6 === 0;
           const r = 230;
-          const len = isMajor ? 10 : 5;
+          const len = isMajor ? 12 : 5;
           const x1 = 250 + (r - 2) * Math.cos(rad);
           const y1 = 250 + (r - 2) * Math.sin(rad);
           const x2 = 250 + (r - 2 - len) * Math.cos(rad);
@@ -57,28 +108,28 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
             <line
               key={i}
               x1={x1} y1={y1} x2={x2} y2={y2}
-              stroke={isMajor ? "rgba(240,237,230,0.25)" : "rgba(240,237,230,0.1)"}
-              strokeWidth={isMajor ? "1.5" : "0.8"}
+              stroke={isMajor ? "rgba(240,237,230,0.25)" : "rgba(240,237,230,0.08)"}
+              strokeWidth={isMajor ? "1.5" : "0.7"}
             />
           );
         })}
-        {/* Center dot grid */}
-        {Array.from({ length: 7 }).map((_, row) =>
-          Array.from({ length: 7 }).map((_, col) => {
-            const x = 180 + col * 23;
-            const y = 180 + row * 23;
+        {/* Center dot grid — pulsing */}
+        {Array.from({ length: 9 }).map((_, row) =>
+          Array.from({ length: 9 }).map((_, col) => {
+            const x = 160 + col * 22.5;
+            const y = 160 + row * 22.5;
             const dist = Math.sqrt((x - 250) ** 2 + (y - 250) ** 2);
-            if (dist > 80) return null;
+            if (dist > 90) return null;
             return (
               <motion.circle
                 key={`${row}-${col}`}
-                cx={x} cy={y} r="1.2"
+                cx={x} cy={y} r="1.5"
                 fill="rgba(240,237,230,0.2)"
-                animate={{ opacity: [0.2, 0.8, 0.2] }}
+                animate={{ opacity: [0.15, 0.7, 0.15], scale: [0.8, 1.2, 0.8] }}
                 transition={{
-                  duration: 2,
+                  duration: 2.5,
                   repeat: Infinity,
-                  delay: (row + col) * 0.15,
+                  delay: (row + col) * 0.12,
                   ease: "easeInOut",
                 }}
               />
@@ -89,10 +140,11 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
         <defs>
           <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#FF6B6B" />
-            <stop offset="25%" stopColor="#FBBF24" />
-            <stop offset="50%" stopColor="#34D399" />
-            <stop offset="75%" stopColor="#54C5F8" />
-            <stop offset="100%" stopColor="#A78BFA" />
+            <stop offset="20%" stopColor="#FBBF24" />
+            <stop offset="40%" stopColor="#34D399" />
+            <stop offset="60%" stopColor="#54C5F8" />
+            <stop offset="80%" stopColor="#A78BFA" />
+            <stop offset="100%" stopColor="#FF6B6B" />
           </linearGradient>
         </defs>
       </svg>
@@ -100,6 +152,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
   );
 }
 
+/* ── Main Hero ───────────────────────────────────────────────────────────── */
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -109,6 +162,7 @@ export default function Hero() {
 
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
   const ringProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   const wordVariants: Variants = {
     hidden: { opacity: 0, y: "110%", rotateX: -30 },
@@ -117,8 +171,8 @@ export default function Hero() {
       y: "0%",
       rotateX: 0,
       transition: {
-        duration: 0.65,
-        delay: 0.2 + i * 0.12,
+        duration: 0.7,
+        delay: 0.3 + i * 0.14,
         ease: [0.215, 0.61, 0.355, 1.0],
       },
     }),
@@ -131,13 +185,17 @@ export default function Hero() {
       id="hero"
     >
       {/* Ring visual — right side */}
-      <div className="absolute right-[-5%] md:right-[3%] top-1/2 -translate-y-1/2 w-[480px] h-[480px] md:w-[560px] md:h-[560px] opacity-90">
+      <motion.div
+        className="absolute right-[-5%] md:right-[3%] top-1/2 -translate-y-1/2 w-[480px] h-[480px] md:w-[560px] md:h-[560px] opacity-90"
+        style={{ opacity: bgOpacity }}
+      >
         <HeroRing progress={ringProgress} />
-      </div>
+      </motion.div>
 
       {/* Glow blobs */}
       <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-[#54C5F8]/4 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/3 right-1/3 w-[400px] h-[400px] rounded-full bg-[#A78BFA]/4 blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/4 w-[300px] h-[300px] rounded-full bg-[#34D399]/3 blur-[100px] pointer-events-none" />
 
       {/* Main content */}
       <motion.div
@@ -147,11 +205,11 @@ export default function Hero() {
         {/* Location tag */}
         <motion.div
           className="flex items-center gap-2 mb-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <span className="w-4 h-[1px] bg-[rgba(240,237,230,0.3)]" />
+          <span className="w-6 h-[1px] bg-[rgba(240,237,230,0.3)]" />
           <span className="text-xs font-mono text-[rgba(240,237,230,0.4)] tracking-widest uppercase">
             Göttingen, Deutschland
           </span>
@@ -192,20 +250,32 @@ export default function Hero() {
 
         {/* Tagline */}
         <motion.p
-          className="text-sm md:text-base font-mono text-[rgba(240,237,230,0.35)] mb-12 tracking-wide"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.75 }}
+          className="text-sm md:text-base font-mono text-[rgba(240,237,230,0.35)] mb-10 tracking-wide"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.85 }}
         >
           {TAGLINE}
         </motion.p>
+
+        {/* Stat counters — animejs-inspired data visualization */}
+        <motion.div
+          className="flex gap-8 md:gap-12 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 1.0 }}
+        >
+          {STATS.map((stat, i) => (
+            <AnimatedStat key={stat.label} {...stat} delay={1.1 + i * 0.15} />
+          ))}
+        </motion.div>
 
         {/* CTA row */}
         <motion.div
           className="flex flex-wrap items-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.7, delay: 1.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <a
             href="#projects"
@@ -227,7 +297,7 @@ export default function Hero() {
           className="absolute bottom-10 left-6 md:left-12 flex items-center gap-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.8 }}
+          transition={{ delay: 2.0, duration: 0.8 }}
         >
           <motion.span
             className="w-[1px] h-10 bg-[rgba(240,237,230,0.2)]"
