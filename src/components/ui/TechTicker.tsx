@@ -1,7 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 const TECH_ITEMS = [
   { label: "Flutter", color: "#54C5F8" },
   { label: "SwiftUI", color: "#FF6B6B" },
@@ -31,16 +27,8 @@ export default function TechTicker() {
       <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0f0e0c] to-transparent z-10" />
       <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0f0e0c] to-transparent z-10" />
 
-      <motion.div
-        className="flex gap-8 whitespace-nowrap"
-        animate={{ x: [0, -(TECH_ITEMS.length * 140)] }}
-        transition={{
-          x: {
-            duration: 30,
-            repeat: Infinity,
-            ease: "linear",
-          },
-        }}
+      <div
+        className="flex gap-8 whitespace-nowrap ticker-scroll"
       >
         {ITEMS.map((item, i) => (
           <div key={`${item.label}-${i}`} className="flex items-center gap-3 flex-shrink-0">
@@ -56,7 +44,7 @@ export default function TechTicker() {
             </span>
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }

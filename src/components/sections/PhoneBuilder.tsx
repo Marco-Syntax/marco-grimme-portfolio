@@ -70,7 +70,7 @@ export default function PhoneBuilder() {
   });
 
   // Smooth spring — drives every transform
-  const sp = useSpring(scrollYProgress, { stiffness: 80, damping: 26 });
+  const sp = useSpring(scrollYProgress, { stiffness: 60, damping: 28, restDelta: 0.005 });
 
   // ── FRAME ──────────────────────────────────────────────────────────────
   const frameScale   = useTransform(sp, [0, 0.14], [0.55, 1]);
@@ -132,7 +132,7 @@ export default function PhoneBuilder() {
       style={{ height: "400vh" }}
     >
       {/* ── STICKY PANEL ──────────────────────────────────────────────── */}
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden" style={{ transform: 'translateZ(0)' }}>
 
         {/* Dot grid bg */}
         <div className="absolute inset-0 grid-dots opacity-60 pointer-events-none" />

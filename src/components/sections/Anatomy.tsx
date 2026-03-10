@@ -21,7 +21,7 @@ export default function Anatomy() {
     offset: ["start start", "end end"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 20 });
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 22, restDelta: 0.005 });
 
   // Layers spread apart as you scroll, then come back together
   const layer0Y = useTransform(smoothProgress, [0, 0.5], [0, -110]);
@@ -53,7 +53,7 @@ export default function Anatomy() {
       style={{ height: "400vh" }}
       id="anatomy"
     >
-      <div className="sticky top-0 h-screen overflow-hidden flex items-center">
+      <div className="sticky top-0 h-screen overflow-hidden flex items-center" style={{ transform: 'translateZ(0)' }}>
         {/* Title — upper left */}
         <motion.div
           className="absolute top-16 left-6 md:left-16 z-10 max-w-xs"

@@ -65,7 +65,7 @@ export default function WebBuilder() {
     offset: ["start start", "end end"],
   });
 
-  const sp = useSpring(scrollYProgress, { stiffness: 80, damping: 26 });
+  const sp = useSpring(scrollYProgress, { stiffness: 60, damping: 28, restDelta: 0.005 });
 
   // ── BROWSER FRAME ──────────────────────────────────────────────────────
   const frameOpacity = useTransform(sp, [0, 0.08], [0, 1]);
@@ -122,7 +122,7 @@ export default function WebBuilder() {
       style={{ height: "400vh", background: "#0a0f18" }}
     >
       {/* ── STICKY PANEL ──────────────────────────────────────────────── */}
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden" style={{ transform: 'translateZ(0)' }}>
 
         {/* Subtle grid lines */}
         <div

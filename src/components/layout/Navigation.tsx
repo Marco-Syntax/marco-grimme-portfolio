@@ -26,7 +26,9 @@ export default function Navigation() {
         style={{
           backgroundColor: `rgba(15, 14, 12, ${bgOpacity})`,
           borderColor: `rgba(240, 237, 230, ${borderOpacity})`,
+          WebkitBackdropFilter: "blur(12px)",
           backdropFilter: "blur(12px)",
+          transform: "translateZ(0)",
         }}
       >
         <div className="max-w-[1400px] mx-auto flex items-center justify-between h-14">

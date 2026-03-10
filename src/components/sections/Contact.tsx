@@ -32,11 +32,9 @@ export default function Contact() {
       </div>
 
       {/* Animated glow */}
-      <motion.div
+      <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(84,197,248,0.06) 0%, transparent 70%)" }}
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        style={{ background: "radial-gradient(circle, rgba(84,197,248,0.06) 0%, transparent 70%)", transform: 'translateZ(0)' }}
       />
 
       <div className="relative z-10 max-w-[1400px] mx-auto w-full">

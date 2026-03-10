@@ -100,10 +100,10 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
           const isMajor = i % 6 === 0;
           const r = 230;
           const len = isMajor ? 12 : 5;
-          const x1 = 250 + (r - 2) * Math.cos(rad);
-          const y1 = 250 + (r - 2) * Math.sin(rad);
-          const x2 = 250 + (r - 2 - len) * Math.cos(rad);
-          const y2 = 250 + (r - 2 - len) * Math.sin(rad);
+          const x1 = Math.round((250 + (r - 2) * Math.cos(rad)) * 100) / 100;
+          const y1 = Math.round((250 + (r - 2) * Math.sin(rad)) * 100) / 100;
+          const x2 = Math.round((250 + (r - 2 - len) * Math.cos(rad)) * 100) / 100;
+          const y2 = Math.round((250 + (r - 2 - len) * Math.sin(rad)) * 100) / 100;
           return (
             <line
               key={i}
@@ -113,7 +113,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
             />
           );
         })}
-        {/* Center dot grid — pulsing */}
+        {/* Center dot grid — static for performance */}
         {Array.from({ length: 9 }).map((_, row) =>
           Array.from({ length: 9 }).map((_, col) => {
             const x = 160 + col * 22.5;
@@ -121,17 +121,11 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
             const dist = Math.sqrt((x - 250) ** 2 + (y - 250) ** 2);
             if (dist > 90) return null;
             return (
-              <motion.circle
+              <circle
                 key={`${row}-${col}`}
                 cx={x} cy={y} r="1.5"
-                fill="rgba(240,237,230,0.2)"
-                animate={{ opacity: [0.15, 0.7, 0.15], scale: [0.8, 1.2, 0.8] }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                  delay: (row + col) * 0.12,
-                  ease: "easeInOut",
-                }}
+                fill="rgba(240,237,230,0.25)"
+                className="hero-dot"
               />
             );
           })
@@ -192,15 +186,15 @@ export default function Hero() {
         <HeroRing progress={ringProgress} />
       </motion.div>
 
-      {/* Glow blobs */}
-      <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-[#54C5F8]/4 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/3 right-1/3 w-[400px] h-[400px] rounded-full bg-[#A78BFA]/4 blur-[100px] pointer-events-none" />
-      <div className="absolute top-1/2 left-1/4 w-[300px] h-[300px] rounded-full bg-[#34D399]/3 blur-[100px] pointer-events-none" />
+      {/* Glow blobs — GPU-promoted for Safari */}
+      <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-[#54C5F8]/4 blur-[120px] pointer-events-none" style={{ transform: 'translateZ(0)' }} />
+      <div className="absolute bottom-1/3 right-1/3 w-[400px] h-[400px] rounded-full bg-[#A78BFA]/4 blur-[100px] pointer-events-none" style={{ transform: 'translateZ(0)' }} />
+      <div className="absolute top-1/2 left-1/4 w-[300px] h-[300px] rounded-full bg-[#34D399]/3 blur-[100px] pointer-events-none" style={{ transform: 'translateZ(0)' }} />
 
       {/* Main content */}
       <motion.div
         className="relative z-10 flex flex-col justify-center min-h-screen px-6 md:px-12 max-w-[1400px] mx-auto w-full"
-        style={{ y: textY }}
+        style={{ y: textY, willChange: 'transform' }}
       >
         {/* Location tag */}
         <motion.div
