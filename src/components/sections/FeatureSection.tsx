@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import {
   fadeUp,
-  slideLeft,
   slideRight,
   staggerContainer,
   viewportOnce,
@@ -25,13 +24,13 @@ function CodeBlock({ code, accent }: { code: string; accent: string }) {
 
   return (
     <div
-      className="rounded-xl border overflow-hidden text-left"
-      style={{ borderColor: `${accent}20`, background: "rgba(0,0,0,0.4)" }}
+      className="rounded-xl overflow-hidden text-left theme-transition"
+      style={{ borderColor: "var(--c-code-border)", background: "var(--c-code-bg)", border: "1px solid" }}
     >
       {/* Header bar */}
       <div
         className="flex items-center gap-1.5 px-4 py-2.5 border-b"
-        style={{ borderColor: `${accent}15`, background: `${accent}06` }}
+        style={{ borderColor: "var(--c-code-border)", background: "var(--c-code-header)" }}
       >
         <div className="w-2.5 h-2.5 rounded-full bg-red-400/40" />
         <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/40" />
@@ -45,7 +44,7 @@ function CodeBlock({ code, accent }: { code: string; accent: string }) {
         <pre className="text-[11px] md:text-xs leading-[1.7] font-mono">
           {lines.map((line, i) => (
             <div key={i} className="flex">
-              <span className="select-none mr-4 text-[rgba(240,237,230,0.15)] w-4 text-right flex-shrink-0">
+              <span className="select-none mr-4 w-4 text-right flex-shrink-0" style={{ color: "var(--c-code-line-num)" }}>
                 {i + 1}
               </span>
               <span dangerouslySetInnerHTML={{ __html: highlightCode(line, accent) }} />
@@ -69,13 +68,10 @@ const KEYWORDS = new Set([
   "for","while","try","catch","throw","new","null","true","false",
 ]);
 
-// Single token regex — order matters: decorators > strings > keywords > function-calls
-// Operates on PLAIN TEXT only; HTML is injected per-token after matching
 const TOKEN_RE =
   /@\w+|"[^"]*"|'[^']*'|\b(?:class|extends|abstract|final|const|var|await|async|return|Future|Either|List|String|int|bool|void|override|import|from|def|implements|private|some|struct|protocol|func|let|self|super)\b|\b\w+(?=\s*\()/g;
 
 function highlightCode(line: string, accent: string): string {
-  // Detect comment start on raw text (safe — no HTML yet)
   let codePart = line;
   let commentPart = "";
   const dartIdx = line.indexOf("//");
@@ -89,7 +85,6 @@ function highlightCode(line: string, accent: string): string {
     commentPart = line.slice(splitAt);
   }
 
-  // Single-pass tokenisation on plain text — no HTML present yet
   const parts: string[] = [];
   TOKEN_RE.lastIndex = 0;
   let last = 0;
@@ -113,9 +108,9 @@ function highlightCode(line: string, accent: string): string {
 
   let html = parts.join("");
   if (commentPart) {
-    html += `<span style="color:rgba(240,237,230,0.35)">${escHtml(commentPart)}</span>`;
+    html += `<span style="color:var(--c-code-comment)">${escHtml(commentPart)}</span>`;
   }
-  return `<span style="color:rgba(240,237,230,0.75)">${html}</span>`;
+  return `<span style="color:var(--c-code-text)">${html}</span>`;
 }
 
 export default function FeatureSection({
@@ -131,10 +126,10 @@ export default function FeatureSection({
   return (
     <section
       id={id}
-      className="relative min-h-screen bg-[#0f0e0c] flex items-center py-24 overflow-hidden"
+      className="relative min-h-screen flex items-center py-24 overflow-hidden theme-transition"
+      style={{ background: "var(--c-bg)" }}
     >
-      {/* Subtle glow from accent — translateZ(0) promotes to GPU compositor layer
-          so Safari doesn't repaint the blur on every scroll frame */}
+      {/* Subtle glow from accent */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -145,7 +140,7 @@ export default function FeatureSection({
           height: "50vw",
           borderRadius: "50%",
           background: accent,
-          opacity: 0.03,
+          opacity: 0.025,
           filter: "blur(120px)",
           transform: "translateZ(0)",
           willChange: "transform",
@@ -153,7 +148,7 @@ export default function FeatureSection({
       />
 
       {/* Top separator line */}
-      <div className="absolute top-0 left-6 md:left-12 right-6 md:right-12 h-[1px] bg-[rgba(240,237,230,0.06)]" />
+      <div className="absolute top-0 left-6 md:left-12 right-6 md:right-12 h-[1px]" style={{ background: "var(--c-border-subtle)" }} />
 
       <div className="relative z-10 max-w-[1400px] mx-auto w-full px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -189,7 +184,8 @@ export default function FeatureSection({
             {/* Subtitle */}
             <motion.p
               variants={fadeUp}
-              className="text-base md:text-lg text-[rgba(240,237,230,0.55)] mb-5 font-medium"
+              className="text-base md:text-lg mb-5 font-medium"
+              style={{ color: "var(--c-text-dim)" }}
             >
               {subtitle}
             </motion.p>
@@ -204,7 +200,8 @@ export default function FeatureSection({
             {/* Description */}
             <motion.p
               variants={fadeUp}
-              className="text-sm md:text-base text-[rgba(240,237,230,0.5)] leading-relaxed mb-8 max-w-md"
+              className="text-sm md:text-base leading-relaxed mb-8 max-w-md"
+              style={{ color: "var(--c-text-muted)" }}
             >
               {description}
             </motion.p>
@@ -215,7 +212,8 @@ export default function FeatureSection({
                 <motion.li
                   key={b}
                   variants={fadeUp}
-                  className="flex items-center gap-3 text-sm text-[rgba(240,237,230,0.65)]"
+                  className="flex items-center gap-3 text-sm"
+                  style={{ color: "var(--c-text-dim)" }}
                 >
                   <span
                     className="flex-shrink-0 w-4 h-[1.5px] rounded-full"

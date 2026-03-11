@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import Link from "next/link";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 const links = [
   { label: "Projekte", href: "#projects" },
@@ -12,7 +12,6 @@ const links = [
 export default function Navigation() {
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 100], [0, 1]);
-  const borderOpacity = useTransform(scrollY, [0, 100], [0, 0.08]);
 
   return (
     <motion.nav
@@ -24,39 +23,56 @@ export default function Navigation() {
       <motion.div
         className="relative border-b"
         style={{
-          backgroundColor: `rgba(15, 14, 12, ${bgOpacity})`,
-          borderColor: `rgba(240, 237, 230, ${borderOpacity})`,
+          backgroundColor: `rgba(var(--bg), ${bgOpacity})`,
+          borderColor: "var(--c-nav-border)",
           WebkitBackdropFilter: "blur(12px)",
           backdropFilter: "blur(12px)",
           transform: "translateZ(0)",
+          transition: "border-color 0.35s ease",
         }}
       >
         <div className="max-w-[1400px] mx-auto flex items-center justify-between h-14">
           {/* Logo / Name */}
           <a
             href="#"
-            className="text-sm font-semibold tracking-tight text-[#f0ede6] hover:opacity-70 transition-opacity"
+            className="text-sm font-semibold tracking-tight hover:opacity-70 transition-opacity"
+            style={{ color: "var(--c-nav-text)" }}
           >
             Marco Grimme
           </a>
 
-          {/* Links */}
-          <div className="flex items-center gap-8">
+          {/* Links + Toggle */}
+          <div className="flex items-center gap-5 md:gap-8">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                className="text-sm text-[rgba(240,237,230,0.5)] hover:text-[#f0ede6] transition-colors duration-200"
+                className="text-sm transition-colors duration-200 hidden sm:block"
+                style={{ color: "var(--c-nav-text-dim)" }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--c-nav-text)")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--c-nav-text-dim)")}
               >
                 {l.label}
               </a>
             ))}
             <a
               href="mailto:marco@grimme.dev"
-              className="text-sm px-4 py-1.5 rounded-full border border-[rgba(240,237,230,0.15)] text-[rgba(240,237,230,0.7)] hover:border-[rgba(240,237,230,0.4)] hover:text-[#f0ede6] transition-all duration-200"
+              className="text-sm px-4 py-1.5 rounded-full border transition-all duration-200 hidden md:block"
+              style={{ borderColor: "var(--c-border)", color: "var(--c-nav-text-dim)" }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "var(--c-border-hover)";
+                el.style.color = "var(--c-nav-text)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "var(--c-border)";
+                el.style.color = "var(--c-nav-text-dim)";
+              }}
             >
               Hire me
             </a>
+            <ThemeToggle />
           </div>
         </div>
       </motion.div>

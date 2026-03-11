@@ -32,13 +32,13 @@ function PhaseLabel({
       className="absolute inset-x-0 top-1/2 -translate-y-1/2"
       style={{ opacity, y }}
     >
-      <p className="text-xs font-mono text-[rgba(240,237,230,0.25)] uppercase tracking-widest mb-3">
+      <p className="text-xs font-mono uppercase tracking-widest mb-3" style={{ color: "var(--c-text-faint)" }}>
         {num} /
       </p>
-      <h3 className="text-2xl md:text-3xl font-[800] text-[#f0ede6] leading-[1] mb-3">
+      <h3 className="text-2xl md:text-3xl font-[800] leading-[1] mb-3" style={{ color: "var(--c-text)" }}>
         {title}
       </h3>
-      <p className="text-sm text-[rgba(240,237,230,0.4)] leading-relaxed max-w-[210px]">
+      <p className="text-sm leading-relaxed max-w-[210px]" style={{ color: "var(--c-text-muted)" }}>
         {desc}
       </p>
     </motion.div>
@@ -128,8 +128,8 @@ export default function PhoneBuilder() {
     <section
       ref={ref}
       id="phone-builder"
-      className="relative bg-[#0f0e0c]"
-      style={{ height: "380vh" }}
+      className="relative theme-transition"
+      style={{ height: "380vh", background: "var(--c-bg)" }}
     >
       {/* ── STICKY PANEL ──────────────────────────────────────────────── */}
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden" style={{ transform: 'translateZ(0)' }}>
@@ -138,7 +138,7 @@ export default function PhoneBuilder() {
         <div className="absolute inset-0 grid-dots opacity-60 pointer-events-none" />
 
         {/* Top separator */}
-        <div className="absolute top-0 left-6 md:left-12 right-6 md:right-12 h-[1px] bg-[rgba(240,237,230,0.06)]" />
+        <div className="absolute top-0 left-6 md:left-12 right-6 md:right-12 h-[1px]" style={{ background: "var(--c-border-subtle)" }} />
 
         {/* ── 3-COLUMN LAYOUT ─────────────────────────────────────────── */}
         <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 md:px-12 flex items-center justify-between">
@@ -467,16 +467,16 @@ export default function PhoneBuilder() {
 
           {/* RIGHT — static copy ─────────────────────────────────────── */}
           <div className="hidden lg:block flex-1 max-w-[240px] text-right">
-            <p className="text-xs font-mono text-[rgba(240,237,230,0.22)] uppercase tracking-widest mb-5">
+            <p className="text-xs font-mono uppercase tracking-widest mb-5" style={{ color: "var(--c-text-faint)" }}>
               Scroll to assemble
             </p>
             <h2
-              className="font-[800] text-[#f0ede6] leading-[0.93] tracking-tight mb-5"
-              style={{ fontSize: "clamp(1.8rem, 2.5vw, 2.4rem)" }}
+              className="font-[800] leading-[0.93] tracking-tight mb-5"
+              style={{ fontSize: "clamp(1.8rem, 2.5vw, 2.4rem)", color: "var(--c-text)" }}
             >
               Eine App.<br />Schicht für<br />Schicht.
             </h2>
-            <p className="text-sm text-[rgba(240,237,230,0.38)] leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: "var(--c-text-muted)" }}>
               So entstehen Apps, die ich baue — sauber strukturiert,
               Pixel für Pixel zusammengesetzt.
             </p>
@@ -487,7 +487,7 @@ export default function PhoneBuilder() {
 
         {/* Mobile-only scroll hint */}
         <div className="lg:hidden absolute bottom-8 inset-x-0 text-center pointer-events-none">
-          <p className="text-[10px] font-mono text-[rgba(240,237,230,0.2)] uppercase tracking-widest">
+          <p className="text-[10px] font-mono uppercase tracking-widest" style={{ color: "var(--c-text-ultrafaint)" }}>
             Scroll to assemble
           </p>
         </div>

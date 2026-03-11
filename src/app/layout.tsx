@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/lib/theme";
+
+/* Inline script that runs synchronously before React hydration to prevent
+   the flash of wrong theme (FOUC). Dark is the SSR default. */
+const themeScript = `
+(function(){try{
+  var s=localStorage.getItem('portfolio-theme');
+  var p=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  var t=s==='light'||s==='dark'?s:(p?'dark':'light');
+  document.documentElement.setAttribute('data-theme',t);
+}catch(e){document.documentElement.setAttribute('data-theme','dark');}
+})();
+`;
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -33,9 +46,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className={`${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans antialiased bg-[#0f0e0c] text-[#f0ede6]">
-        {children}
+    <html lang="de" data-theme="dark" className={`${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="font-sans antialiased">
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

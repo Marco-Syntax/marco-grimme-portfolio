@@ -39,7 +39,7 @@ function AnimatedStat({ value, suffix, label, color, delay }: {
         </motion.span>
         <span className="text-lg font-[700]" style={{ color }}>{suffix}</span>
       </div>
-      <span className="text-[10px] font-mono text-[rgba(240,237,230,0.3)] uppercase tracking-widest mt-1">
+      <span className="text-[10px] font-mono uppercase tracking-widest mt-1" style={{ color: "var(--c-text-faint)" }}>
         {label}
       </span>
     </motion.div>
@@ -58,9 +58,6 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
     >
       <svg viewBox="0 0 500 500" className="w-full h-full max-w-[500px] max-h-[500px]" suppressHydrationWarning>
         {/* Outer ring - multicolor arc */}
-        {/* transformBox:"fill-box" + transformOrigin:"center" is the cross-browser
-            correct way to rotate SVG elements around their own center on Safari.
-            Without transformBox, Safari uses the SVG viewport origin (0,0) instead. */}
         <motion.circle
           cx="250" cy="250" r="230"
           fill="none" strokeWidth="2"
@@ -74,7 +71,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
         <motion.circle
           cx="250" cy="250" r="205"
           fill="none" strokeWidth="1"
-          stroke="rgba(240,237,230,0.12)"
+          stroke="var(--c-ring-mid)"
           strokeDasharray="4 8"
           animate={{ rotate: [0, 360] }}
           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
@@ -84,13 +81,13 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
         <motion.circle
           cx="250" cy="250" r="185"
           fill="none" strokeWidth="0.5"
-          stroke="rgba(240,237,230,0.08)"
+          stroke="var(--c-ring-inner)"
         />
         {/* Inner-inner ring */}
         <motion.circle
           cx="250" cy="250" r="160"
           fill="none" strokeWidth="0.3"
-          stroke="rgba(240,237,230,0.05)"
+          stroke="var(--c-ring-faint)"
           strokeDasharray="2 6"
           animate={{ rotate: [360, 0] }}
           transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
@@ -111,7 +108,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
             <line
               key={i}
               x1={x1} y1={y1} x2={x2} y2={y2}
-              stroke={isMajor ? "rgba(240,237,230,0.25)" : "rgba(240,237,230,0.08)"}
+              stroke={isMajor ? "var(--c-ring-major)" : "var(--c-ring-minor)"}
               strokeWidth={isMajor ? "1.5" : "0.7"}
             />
           );
@@ -127,7 +124,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
               <circle
                 key={`${row}-${col}`}
                 cx={x} cy={y} r="1.5"
-                fill="rgba(240,237,230,0.25)"
+                fill="var(--c-ring-dot)"
                 className="hero-dot"
               />
             );
@@ -149,7 +146,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
   );
 }
 
-/* ── Main Hero ───────────────────────────────────────────────────────────── */
+/* ── Main Hero ───────────────────────────────────────────── */
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -178,8 +175,9 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex flex-col bg-[#0f0e0c] overflow-hidden grid-dots"
+      className="relative min-h-screen flex flex-col grid-dots overflow-hidden theme-transition"
       id="hero"
+      style={{ background: "var(--c-bg)" }}
     >
       {/* Ring visual — right side */}
       <motion.div
@@ -206,8 +204,8 @@ export default function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <span className="w-6 h-[1px] bg-[rgba(240,237,230,0.3)]" />
-          <span className="text-xs font-mono text-[rgba(240,237,230,0.4)] tracking-widest uppercase">
+          <span className="w-6 h-[1px]" style={{ background: "var(--c-text-faint)" }} />
+          <span className="text-xs font-mono uppercase tracking-widest" style={{ color: "var(--c-text-muted)" }}>
             Göttingen, Deutschland
           </span>
         </motion.div>
@@ -215,7 +213,8 @@ export default function Hero() {
         {/* Name */}
         <div className="overflow-hidden mb-3">
           <motion.h2
-            className="text-base md:text-lg font-medium text-[rgba(240,237,230,0.5)] tracking-tight"
+            className="text-base md:text-lg font-medium tracking-tight"
+            style={{ color: "var(--c-text-dim)" }}
             initial={{ y: "100%", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -225,10 +224,9 @@ export default function Hero() {
         </div>
 
         {/* Display headline — word by word reveal */}
-        {/* perspective is required for correct Safari rendering of rotateX on text */}
         <div
-          className="font-sans font-[800] text-[#f0ede6] leading-[0.93] tracking-[-0.03em] mb-8"
-          style={{ fontSize: "clamp(3.2rem, 8.5vw, 7.5rem)", perspective: "1000px" }}
+          className="font-sans font-[800] leading-[0.93] tracking-[-0.03em] mb-8"
+          style={{ fontSize: "clamp(3.2rem, 8.5vw, 7.5rem)", perspective: "1000px", color: "var(--c-text)" }}
           aria-label="Mobile App Developer"
         >
           {ROLE_WORDS.map((word, i) => (
@@ -248,7 +246,8 @@ export default function Hero() {
 
         {/* Tagline */}
         <motion.p
-          className="text-sm md:text-base font-mono text-[rgba(240,237,230,0.35)] mb-10 tracking-wide"
+          className="text-sm md:text-base font-mono mb-10 tracking-wide"
+          style={{ color: "var(--c-text-muted)" }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.85 }}
@@ -256,7 +255,7 @@ export default function Hero() {
           {TAGLINE}
         </motion.p>
 
-        {/* Stat counters — animejs-inspired data visualization */}
+        {/* Stat counters */}
         <motion.div
           className="flex gap-8 md:gap-12 mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -277,14 +276,28 @@ export default function Hero() {
         >
           <a
             href="#projects"
-            className="group flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#f0ede6] text-[#0f0e0c] font-semibold text-sm hover:bg-white transition-colors"
+            className="group flex items-center gap-3 px-7 py-3.5 rounded-full font-semibold text-sm transition-colors"
+            style={{ background: "var(--c-text)", color: "var(--c-bg)" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.88"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
           >
             Projekte ansehen
             <span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
           </a>
           <a
             href="#contact"
-            className="flex items-center gap-3 px-7 py-3.5 rounded-full border border-[rgba(240,237,230,0.15)] text-[rgba(240,237,230,0.7)] font-medium text-sm hover:border-[rgba(240,237,230,0.35)] hover:text-[#f0ede6] transition-all"
+            className="flex items-center gap-3 px-7 py-3.5 rounded-full border font-medium text-sm transition-all"
+            style={{ borderColor: "var(--c-border)", color: "var(--c-text-dim)" }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.borderColor = "var(--c-border-hover)";
+              el.style.color = "var(--c-text)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.borderColor = "var(--c-border)";
+              el.style.color = "var(--c-text-dim)";
+            }}
           >
             Kontakt
           </a>
@@ -298,12 +311,12 @@ export default function Hero() {
           transition={{ delay: 2.0, duration: 0.8 }}
         >
           <motion.span
-            className="w-[1px] h-10 bg-[rgba(240,237,230,0.2)]"
+            className="w-[1px] h-10"
+            style={{ background: "var(--c-text-faint)", transformOrigin: "top" }}
             animate={{ scaleY: [1, 0.3, 1] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            style={{ transformOrigin: "top" }}
           />
-          <span className="text-xs font-mono text-[rgba(240,237,230,0.25)] tracking-widest uppercase rotate-90 origin-left translate-y-4">
+          <span className="text-xs font-mono tracking-widest uppercase rotate-90 origin-left translate-y-4" style={{ color: "var(--c-text-ultrafaint)" }}>
             Scroll
           </span>
         </motion.div>

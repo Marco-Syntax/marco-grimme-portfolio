@@ -19,25 +19,24 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative min-h-screen bg-[#0f0e0c] flex items-center py-28 px-6 md:px-12 overflow-hidden"
+      className="relative min-h-screen flex items-center py-28 px-6 md:px-12 overflow-hidden theme-transition"
+      style={{ background: "var(--c-bg)" }}
     >
       {/* Background ring decoration */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <svg viewBox="0 0 800 800" className="w-full max-w-[800px] opacity-[0.04]">
-          <circle cx="400" cy="400" r="380" fill="none" stroke="#f0ede6" strokeWidth="1" />
-          <circle cx="400" cy="400" r="320" fill="none" stroke="#f0ede6" strokeWidth="0.5" />
-          <circle cx="400" cy="400" r="260" fill="none" stroke="#f0ede6" strokeWidth="0.5" />
-          <circle cx="400" cy="400" r="200" fill="none" stroke="#f0ede6" strokeWidth="0.3" />
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
+        <svg viewBox="0 0 800 800" className="w-full max-w-[800px]">
+          <circle cx="400" cy="400" r="380" fill="none" stroke="currentColor" strokeWidth="1" style={{ color: "var(--c-text)" }} />
+          <circle cx="400" cy="400" r="320" fill="none" stroke="currentColor" strokeWidth="0.5" style={{ color: "var(--c-text)" }} />
+          <circle cx="400" cy="400" r="260" fill="none" stroke="currentColor" strokeWidth="0.5" style={{ color: "var(--c-text)" }} />
+          <circle cx="400" cy="400" r="200" fill="none" stroke="currentColor" strokeWidth="0.3" style={{ color: "var(--c-text)" }} />
         </svg>
       </div>
 
-      {/* Animated glow — inline style.transform overrides Tailwind's CSS custom-property
-          translate, so we must include the full transform chain here instead of using
-          the -translate-x/y Tailwind classes alongside an inline style. */}
+      {/* Animated glow */}
       <div
         className="absolute top-1/2 left-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(84,197,248,0.06) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(84,197,248,0.05) 0%, transparent 70%)",
           transform: "translate(-50%, -50%) translateZ(0)",
         }}
       />
@@ -51,36 +50,36 @@ export default function Contact() {
         >
           <motion.p
             variants={fadeUp}
-            className="text-xs font-mono text-[rgba(240,237,230,0.3)] uppercase tracking-widest mb-6"
+            className="text-xs font-mono uppercase tracking-widest mb-6"
+            style={{ color: "var(--c-text-faint)" }}
           >
             Kontakt
           </motion.p>
 
           <motion.h2
             variants={fadeUp}
-            className="font-[800] text-[#f0ede6] leading-[0.92] tracking-tight mb-8"
-            style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
+            className="font-[800] leading-[0.92] tracking-tight mb-8"
+            style={{ fontSize: "clamp(3rem, 8vw, 7rem)", color: "var(--c-text)" }}
           >
             Lass uns<br />reden.
           </motion.h2>
 
           <motion.p
             variants={fadeUp}
-            className="text-base md:text-lg text-[rgba(240,237,230,0.45)] leading-relaxed mb-12 max-w-lg"
+            className="text-base md:text-lg leading-relaxed mb-12 max-w-lg"
+            style={{ color: "var(--c-text-muted)" }}
           >
             Spezialist für Mobile App Entwicklung, Web-Apps und individuelle Business-Software.
             Remote verfügbar für Teams in Deutschland und der EU — ob Projekt, Stelle oder Freelance.
           </motion.p>
 
           {/* CTA buttons */}
-          <motion.div
-            variants={fadeUp}
-            className="flex flex-wrap gap-4 mb-20"
-          >
+          <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-20">
             <motion.a
               href="mailto:mgrimme954@gmail.com"
-              className="group flex items-center gap-4 px-8 py-4 rounded-full bg-[#f0ede6] text-[#0f0e0c] font-semibold text-sm"
-              whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
+              className="group flex items-center gap-4 px-8 py-4 rounded-full font-semibold text-sm theme-transition"
+              style={{ background: "var(--c-text)", color: "var(--c-bg)" }}
+              whileHover={{ scale: 1.03, opacity: 0.88, transition: { duration: 0.15 } }}
               whileTap={{ scale: 0.98 }}
             >
               E-Mail schreiben
@@ -91,14 +90,20 @@ export default function Contact() {
               href="https://github.com/Marco-Syntax"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-4 px-8 py-4 rounded-full border border-[rgba(240,237,230,0.15)] text-[rgba(240,237,230,0.65)] font-medium text-sm"
-              whileHover={{
-                borderColor: "rgba(240,237,230,0.35)",
-                color: "#f0ede6",
-                scale: 1.02,
-                transition: { duration: 0.15 },
-              }}
+              className="group flex items-center gap-4 px-8 py-4 rounded-full border font-medium text-sm theme-transition"
+              style={{ borderColor: "var(--c-border)", color: "var(--c-text-dim)" }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.15 } }}
               whileTap={{ scale: 0.98 }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "var(--c-border-hover)";
+                el.style.color = "var(--c-text)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "var(--c-border)";
+                el.style.color = "var(--c-text-dim)";
+              }}
             >
               GitHub
               <span className="opacity-50 text-xs">↗</span>
@@ -108,23 +113,29 @@ export default function Contact() {
               href="https://linkedin.com/in/marco-grimme"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-4 px-8 py-4 rounded-full border border-[rgba(240,237,230,0.15)] text-[rgba(240,237,230,0.65)] font-medium text-sm"
-              whileHover={{
-                borderColor: "rgba(240,237,230,0.35)",
-                color: "#f0ede6",
-                scale: 1.02,
-                transition: { duration: 0.15 },
-              }}
+              className="group flex items-center gap-4 px-8 py-4 rounded-full border font-medium text-sm theme-transition"
+              style={{ borderColor: "var(--c-border)", color: "var(--c-text-dim)" }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.15 } }}
               whileTap={{ scale: 0.98 }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "var(--c-border-hover)";
+                el.style.color = "var(--c-text)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "var(--c-border)";
+                el.style.color = "var(--c-text-dim)";
+              }}
             >
               LinkedIn
               <span className="opacity-50 text-xs">↗</span>
             </motion.a>
           </motion.div>
 
-          {/* Navigation grid — animejs-inspired CTA grid with colored dots */}
+          {/* Navigation grid */}
           <motion.div variants={fadeUp}>
-            <p className="text-xs font-mono text-[rgba(240,237,230,0.2)] uppercase tracking-widest mb-5">
+            <p className="text-xs font-mono uppercase tracking-widest mb-5" style={{ color: "var(--c-text-ultrafaint)" }}>
               Schnellnavigation
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -134,20 +145,26 @@ export default function Contact() {
                   href={item.href}
                   target={item.external ? "_blank" : undefined}
                   rel={item.external ? "noopener noreferrer" : undefined}
-                  className="group flex items-center justify-between px-5 py-3.5 rounded-xl border border-[rgba(240,237,230,0.08)] hover:border-[rgba(240,237,230,0.2)] transition-all duration-200"
+                  className="group flex items-center justify-between px-5 py-3.5 rounded-xl border transition-all duration-200"
+                  style={{ borderColor: "var(--c-border-subtle)" }}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
                   whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--c-border)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--c-border-subtle)"; }}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full" style={{ background: item.dot }} />
-                    <span className="text-sm text-[rgba(240,237,230,0.6)] group-hover:text-[#f0ede6] transition-colors">
+                    <div className="w-2 h-2 rounded-full" style={{ background: item.dot === "#f0ede6" ? "var(--c-text)" : item.dot }} />
+                    <span className="text-sm transition-colors" style={{ color: "var(--c-text-dim)" }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLSpanElement).style.color = "var(--c-text)"; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLSpanElement).style.color = "var(--c-text-dim)"; }}
+                    >
                       {item.label}
                     </span>
                   </div>
-                  <span className="text-xs text-[rgba(240,237,230,0.2)] group-hover:text-[rgba(240,237,230,0.5)] transition-colors">
+                  <span className="text-xs transition-colors" style={{ color: "var(--c-text-faint)" }}>
                     {item.external ? "↗" : "→"}
                   </span>
                 </motion.a>
@@ -158,7 +175,8 @@ export default function Contact() {
           {/* Location note */}
           <motion.div
             variants={fadeUp}
-            className="flex items-center gap-3 text-xs font-mono text-[rgba(240,237,230,0.2)] mt-12"
+            className="flex items-center gap-3 text-xs font-mono mt-12"
+            style={{ color: "var(--c-text-faint)" }}
           >
             <span className="w-4 h-[1px] bg-current" />
             Göttingen, Deutschland · Remote verfügbar

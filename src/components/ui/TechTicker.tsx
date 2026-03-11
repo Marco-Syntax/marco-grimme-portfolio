@@ -22,10 +22,10 @@ const ITEMS = [...TECH_ITEMS, ...TECH_ITEMS];
 
 export default function TechTicker() {
   return (
-    <div className="relative bg-[#0f0e0c] py-6 overflow-hidden border-y border-white/5">
+    <div className="relative py-6 overflow-hidden border-y theme-transition" style={{ background: "var(--c-bg)", borderColor: "var(--c-border-subtle)" }}>
       {/* Left/right fade masks */}
-      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0f0e0c] to-transparent z-10" />
-      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0f0e0c] to-transparent z-10" />
+      <div className="absolute left-0 top-0 bottom-0 w-24 z-10" style={{ background: "linear-gradient(to right, var(--c-bg), transparent)" }} />
+      <div className="absolute right-0 top-0 bottom-0 w-24 z-10" style={{ background: "linear-gradient(to left, var(--c-bg), transparent)" }} />
 
       <div
         className="flex gap-8 whitespace-nowrap ticker-scroll"

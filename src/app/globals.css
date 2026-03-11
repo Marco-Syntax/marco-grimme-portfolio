@@ -18,10 +18,174 @@
   --color-accent-contact: #FB923C;
 }
 
-:root {
-  --bg-dark: #0f0e0c;
-  --bg-light: #dcd8cc;
+/* ══════════════════════════════════════════════════════════
+   DARK MODE  (default)
+   ══════════════════════════════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+  /* ── RGB channels for rgba() construction in inline styles ─── */
+  --fg: 240, 237, 230;
+  --bg: 15, 14, 12;
+  --fg-alt: 26, 24, 22;       /* text on "light" sections */
+  --bg-alt: 220, 216, 204;    /* light section bg channels */
+
+  /* ── Core surfaces ─────────────────────────────────────────── */
+  --c-bg:       #0f0e0c;
+  --c-bg-alt:   #dcd8cc;      /* Anatomy, Stack sections */
+  --c-surface:  #1a1916;
+  --c-surface-2:#252420;
+
+  /* ── Text ──────────────────────────────────────────────────── */
+  --c-text:          #f0ede6;
+  --c-text-dim:      rgba(240, 237, 230, 0.55);
+  --c-text-muted:    rgba(240, 237, 230, 0.38);
+  --c-text-faint:    rgba(240, 237, 230, 0.22);
+  --c-text-ultrafaint: rgba(240, 237, 230, 0.12);
+
+  /* ── Text on light sections ────────────────────────────────── */
+  --c-alt-text:       #1a1816;
+  --c-alt-text-dim:   rgba(26, 24, 22, 0.55);
+  --c-alt-text-muted: rgba(26, 24, 22, 0.38);
+  --c-alt-text-faint: rgba(26, 24, 22, 0.22);
+
+  /* ── Borders ───────────────────────────────────────────────── */
+  --c-border:         rgba(240, 237, 230, 0.08);
+  --c-border-hover:   rgba(240, 237, 230, 0.22);
+  --c-border-subtle:  rgba(240, 237, 230, 0.05);
+  --c-alt-border:     rgba(26, 24, 22, 0.08);
+
+  /* ── Cards ─────────────────────────────────────────────────── */
+  --c-card:       rgba(255, 255, 255, 0.02);
+  --c-card-hover: rgba(255, 255, 255, 0.04);
+  --c-alt-card:   rgba(255, 255, 255, 0.04);
+
+  /* ── Navigation ────────────────────────────────────────────── */
+  --c-nav-bg:       rgba(15, 14, 12, 0.88);
+  --c-nav-text:     #f0ede6;
+  --c-nav-text-dim: rgba(240, 237, 230, 0.5);
+  --c-nav-border:   rgba(240, 237, 230, 0.08);
+
+  /* ── Code blocks ───────────────────────────────────────────── */
+  --c-code-bg:     rgba(0, 0, 0, 0.4);
+  --c-code-border: rgba(255, 255, 255, 0.08);
+  --c-code-header: rgba(255, 255, 255, 0.03);
+  --c-code-line-num: rgba(240, 237, 230, 0.15);
+  --c-code-comment: rgba(240, 237, 230, 0.35);
+  --c-code-text:   rgba(240, 237, 230, 0.75);
+
+  /* ── Scroll-to-top button ──────────────────────────────────── */
+  --c-scroll-btn-bg:     rgba(15, 14, 12, 0.88);
+  --c-scroll-btn-border: rgba(240, 237, 230, 0.09);
+  --c-scroll-btn-shadow: 0 4px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+  --c-scroll-track:      rgba(240, 237, 230, 0.07);
+  --c-scroll-text:       rgba(240, 237, 230, 0.5);
+  --c-scroll-arrow:      rgba(240, 237, 230, 0.85);
+  --c-scroll-focus-ring: #0f0e0c;
+
+  /* ── Dot grids ─────────────────────────────────────────────── */
+  --c-dot-dark: rgba(240, 237, 230, 0.06);
+  --c-dot-light: rgba(26, 24, 22, 0.07);
+
+  /* ── Selection + scrollbar ─────────────────────────────────── */
+  --c-selection-bg:   rgba(84, 197, 248, 0.25);
+  --c-selection-text: #f0ede6;
+  --c-scrollbar-track: #0f0e0c;
+  --c-scrollbar-thumb: rgba(240, 237, 230, 0.2);
+
+  /* ── Hero ring ─────────────────────────────────────────────── */
+  --c-ring-mid:   rgba(240, 237, 230, 0.12);
+  --c-ring-inner: rgba(240, 237, 230, 0.08);
+  --c-ring-faint: rgba(240, 237, 230, 0.05);
+  --c-ring-major: rgba(240, 237, 230, 0.25);
+  --c-ring-minor: rgba(240, 237, 230, 0.08);
+  --c-ring-dot:   rgba(240, 237, 230, 0.25);
 }
+
+/* ══════════════════════════════════════════════════════════
+   LIGHT MODE
+   ══════════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  /* ── RGB channels ──────────────────────────────────────────── */
+  --fg: 30, 26, 20;
+  --bg: 242, 238, 232;
+  --fg-alt: 30, 26, 20;
+  --bg-alt: 232, 227, 218;
+
+  /* ── Core surfaces ─────────────────────────────────────────── */
+  --c-bg:       #F2EEE8;      /* warm cream off-white */
+  --c-bg-alt:   #E8E3DA;      /* slightly deeper — Anatomy, Stack */
+  --c-surface:  #EAE5DC;
+  --c-surface-2:#E2DDD4;
+
+  /* ── Text ──────────────────────────────────────────────────── */
+  --c-text:          #1E1A14;
+  --c-text-dim:      rgba(30, 26, 20, 0.65);
+  --c-text-muted:    rgba(30, 26, 20, 0.42);
+  --c-text-faint:    rgba(30, 26, 20, 0.26);
+  --c-text-ultrafaint: rgba(30, 26, 20, 0.14);
+
+  /* ── Text on alt sections (same in light mode) ─────────────── */
+  --c-alt-text:       #1E1A14;
+  --c-alt-text-dim:   rgba(30, 26, 20, 0.6);
+  --c-alt-text-muted: rgba(30, 26, 20, 0.4);
+  --c-alt-text-faint: rgba(30, 26, 20, 0.24);
+
+  /* ── Borders ───────────────────────────────────────────────── */
+  --c-border:        rgba(30, 26, 20, 0.1);
+  --c-border-hover:  rgba(30, 26, 20, 0.24);
+  --c-border-subtle: rgba(30, 26, 20, 0.06);
+  --c-alt-border:    rgba(30, 26, 20, 0.1);
+
+  /* ── Cards ─────────────────────────────────────────────────── */
+  --c-card:       rgba(255, 255, 255, 0.55);
+  --c-card-hover: rgba(255, 255, 255, 0.8);
+  --c-alt-card:   rgba(255, 255, 255, 0.4);
+
+  /* ── Navigation ────────────────────────────────────────────── */
+  --c-nav-bg:       rgba(242, 238, 232, 0.92);
+  --c-nav-text:     #1E1A14;
+  --c-nav-text-dim: rgba(30, 26, 20, 0.52);
+  --c-nav-border:   rgba(30, 26, 20, 0.1);
+
+  /* ── Code blocks ───────────────────────────────────────────── */
+  --c-code-bg:     rgba(30, 26, 20, 0.055);
+  --c-code-border: rgba(30, 26, 20, 0.1);
+  --c-code-header: rgba(30, 26, 20, 0.04);
+  --c-code-line-num: rgba(30, 26, 20, 0.22);
+  --c-code-comment: rgba(30, 26, 20, 0.45);
+  --c-code-text:   rgba(30, 26, 20, 0.82);
+
+  /* ── Scroll-to-top button ──────────────────────────────────── */
+  --c-scroll-btn-bg:     rgba(242, 238, 232, 0.92);
+  --c-scroll-btn-border: rgba(30, 26, 20, 0.12);
+  --c-scroll-btn-shadow: 0 2px 12px rgba(30,26,20,0.12), inset 0 1px 0 rgba(255,255,255,0.5);
+  --c-scroll-track:      rgba(30, 26, 20, 0.08);
+  --c-scroll-text:       rgba(30, 26, 20, 0.5);
+  --c-scroll-arrow:      rgba(30, 26, 20, 0.85);
+  --c-scroll-focus-ring: #F2EEE8;
+
+  /* ── Dot grids ─────────────────────────────────────────────── */
+  --c-dot-dark:  rgba(30, 26, 20, 0.055);
+  --c-dot-light: rgba(30, 26, 20, 0.055);
+
+  /* ── Selection + scrollbar ─────────────────────────────────── */
+  --c-selection-bg:    rgba(84, 197, 248, 0.32);
+  --c-selection-text:  #1E1A14;
+  --c-scrollbar-track: #F2EEE8;
+  --c-scrollbar-thumb: rgba(30, 26, 20, 0.2);
+
+  /* ── Hero ring ─────────────────────────────────────────────── */
+  --c-ring-mid:   rgba(30, 26, 20, 0.1);
+  --c-ring-inner: rgba(30, 26, 20, 0.07);
+  --c-ring-faint: rgba(30, 26, 20, 0.04);
+  --c-ring-major: rgba(30, 26, 20, 0.2);
+  --c-ring-minor: rgba(30, 26, 20, 0.07);
+  --c-ring-dot:   rgba(30, 26, 20, 0.2);
+}
+
+/* ══════════════════════════════════════════════════════════
+   BASE STYLES
+   ══════════════════════════════════════════════════════════ */
 
 /* scroll-behavior on <html> removed — all smooth scrolling is handled via JS
    scrollTo({behavior:'smooth'}). Having both causes double-scroll jank on Safari. */
@@ -31,47 +195,52 @@
 }
 
 body {
-  background-color: #0f0e0c;
-  color: #f0ede6;
-  /* overflow-x: clip instead of hidden — clip does NOT create a scroll container,
-     so position:sticky children keep working correctly on Safari.
-     overflow:hidden creates a BFC/scroll container which breaks sticky on Safari. */
+  background-color: var(--c-bg);
+  color: var(--c-text);
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-space-grotesk), sans-serif;
-  /* Prevent iOS Safari rubber-band overscroll from pushing scrollYProgress outside
-     [0,1], which causes Framer Motion transforms to briefly flash at wrong positions */
   overscroll-behavior-y: none;
-  /* Prevent Safari mobile from auto-inflating font sizes */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 ::-webkit-scrollbar {
   width: 3px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f0e0c;
+  background: var(--c-scrollbar-track);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(240, 237, 230, 0.2);
+  background: var(--c-scrollbar-thumb);
   border-radius: 2px;
 }
 
 ::selection {
-  background: rgba(84, 197, 248, 0.25);
-  color: #f0ede6;
+  background: var(--c-selection-bg);
+  color: var(--c-selection-text);
 }
 
+/* ── Dot grid patterns ──────────────────────────────────── */
 .grid-dots {
-  background-image: radial-gradient(circle, rgba(240,237,230,0.06) 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--c-dot-dark) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
 .grid-dots-light {
-  background-image: radial-gradient(circle, rgba(26,24,22,0.07) 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--c-dot-light) 1px, transparent 1px);
   background-size: 32px 32px;
+}
+
+/* ── Smooth theme transition for major bg changes ──────── */
+.theme-transition {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 /* Ticker — pure CSS animation for Safari perf */

@@ -17,7 +17,8 @@ export default function Stack() {
   return (
     <section
       id="stack"
-      className="relative bg-[#dcd8cc] py-28 md:py-36 px-6 md:px-12 overflow-hidden"
+      className="relative py-28 md:py-36 px-6 md:px-12 overflow-hidden theme-transition"
+      style={{ background: "var(--c-bg-alt)" }}
     >
       <div className="absolute inset-0 grid-dots-light pointer-events-none" />
 
@@ -32,20 +33,22 @@ export default function Stack() {
         >
           <motion.p
             variants={fadeUp}
-            className="text-xs font-mono text-[rgba(26,24,22,0.35)] uppercase tracking-widest mb-4"
+            className="text-xs font-mono uppercase tracking-widest mb-4"
+            style={{ color: "var(--c-alt-text-muted)" }}
           >
             Tech-Infrastruktur
           </motion.p>
           <motion.h2
             variants={fadeUpDramatic}
-            className="font-[800] text-[#1a1816] leading-[0.93] tracking-tight"
-            style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)" }}
+            className="font-[800] leading-[0.93] tracking-tight"
+            style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)", color: "var(--c-alt-text)" }}
           >
             Der Stack.
           </motion.h2>
           <motion.p
             variants={fadeUp}
-            className="mt-4 text-base text-[rgba(26,24,22,0.5)] leading-relaxed max-w-xl"
+            className="mt-4 text-base leading-relaxed max-w-xl"
+            style={{ color: "var(--c-alt-text-dim)" }}
           >
             Ein pragmatischer Stack: von UI bis Deploy.
           </motion.p>
@@ -71,10 +74,10 @@ export default function Stack() {
                     },
                   }}
                   viewport={viewportOnce}
-                  className="group rounded-2xl border p-6 md:p-8 relative overflow-hidden transition-all duration-300"
+                  className="group rounded-2xl border p-6 md:p-8 relative overflow-hidden transition-all duration-300 theme-transition"
                   style={{
                     borderColor: `${color}20`,
-                    background: "rgba(255,255,255,0.03)",
+                    background: "var(--c-alt-card)",
                   }}
                   whileHover={{
                     borderColor: `${color}40`,
@@ -88,8 +91,7 @@ export default function Stack() {
                     style={{ background: `linear-gradient(90deg, transparent, ${color}60, transparent)` }}
                   />
 
-                  {/* Cluster background accent — translateZ(0) promotes to GPU layer,
-                      preventing per-frame CPU repaints from the blur filter on Safari */}
+                  {/* Cluster background accent */}
                   <div
                     className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl pointer-events-none opacity-20"
                     style={{ background: color, transform: "translateZ(0)" }}
@@ -118,9 +120,6 @@ export default function Stack() {
                       <motion.span
                         key={skill}
                         variants={{
-                          // filter:blur removed — animating blur on many small elements
-                          // causes expensive GPU compositing on Safari (each element gets
-                          // its own layer). opacity+scale achieves the same reveal effect.
                           hidden: { opacity: 0, scale: 0.8 },
                           visible: {
                             opacity: 1,
@@ -135,13 +134,12 @@ export default function Stack() {
                         className="text-xs font-mono px-3 py-1.5 rounded-full border relative cursor-default"
                         style={{
                           borderColor: `${color}20`,
-                          color: "rgba(26,24,22,0.75)",
+                          color: "var(--c-alt-text-dim)",
                           background: `${color}10`,
                         }}
                         whileHover={{
                           borderColor: `${color}50`,
                           background: `${color}20`,
-                          color: "#1a1816",
                           scale: 1.06,
                           transition: { duration: 0.15 },
                         }}

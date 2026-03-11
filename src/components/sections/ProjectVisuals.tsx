@@ -190,7 +190,8 @@ export default function ProjectVisuals() {
   return (
     <section
       ref={ref}
-      className="relative bg-[#0a0a0a] py-24 md:py-32 px-6 md:px-12 overflow-hidden"
+      className="relative theme-transition py-24 md:py-32 px-6 md:px-12 overflow-hidden"
+      style={{ background: "var(--c-bg)" }}
     >
       {/* Background grid */}
       <div
@@ -210,17 +211,17 @@ export default function ProjectVisuals() {
           viewport={viewportOnce}
           transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <p className="text-xs font-mono text-[rgba(240,237,230,0.25)] uppercase tracking-widest mb-3">
+          <p className="text-xs font-mono uppercase tracking-widest mb-3" style={{ color: "var(--c-text-faint)" }}>
             Einblicke
           </p>
           <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-10">
             <h2
-              className="font-[800] text-[#f0ede6] leading-[0.93] tracking-tight"
-              style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
+              className="font-[800] leading-[0.93] tracking-tight"
+              style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)", color: "var(--c-text)" }}
             >
               Projekte in Aktion.
             </h2>
-            <p className="text-sm text-[rgba(240,237,230,0.33)] max-w-sm leading-relaxed mb-1">
+            <p className="text-sm max-w-sm leading-relaxed mb-1" style={{ color: "var(--c-text-muted)" }}>
               Neun Produkte. Von der ersten Architektur-Entscheidung bis zum
               Store-Release.
             </p>

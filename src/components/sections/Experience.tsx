@@ -93,7 +93,8 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative bg-[#0f0e0c] py-28 md:py-36 px-6 md:px-12 overflow-hidden"
+      className="relative theme-transition py-28 md:py-36 px-6 md:px-12 overflow-hidden"
+      style={{ background: "var(--c-bg)" }}
     >
       <div className="absolute inset-0 grid-dots pointer-events-none" />
 
@@ -110,14 +111,15 @@ export default function Experience() {
           <div>
             <motion.p
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
-              className="text-xs font-mono text-[rgba(240,237,230,0.3)] uppercase tracking-widest mb-4"
+              className="text-xs font-mono uppercase tracking-widest mb-4"
+              style={{ color: "var(--c-text-faint)" }}
             >
               Beruflicher Werdegang
             </motion.p>
             <motion.h2
               variants={fadeUpDramatic}
-              className="font-[800] text-[#f0ede6] leading-[0.93] tracking-tight"
-              style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)" }}
+              className="font-[800] leading-[0.93] tracking-tight"
+              style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)", color: "var(--c-text)" }}
             >
               Warum Marco.
             </motion.h2>
@@ -126,7 +128,7 @@ export default function Experience() {
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.1 } } }}
             className="flex items-end"
           >
-            <p className="text-base text-[rgba(240,237,230,0.45)] leading-relaxed max-w-md">
+            <p className="text-base leading-relaxed max-w-md" style={{ color: "var(--c-text-dim)" }}>
               Von der Industrie zum Software Entwickler — strukturierte Arbeitsweise,
               technisches Grundverständnis und echte Erfahrung mit produktiven Systemen.
             </p>
@@ -187,25 +189,26 @@ export default function Experience() {
                     >
                       {entry.tag}
                     </span>
-                    <span className="text-xs font-mono text-[rgba(240,237,230,0.28)] tracking-wider">
+                    <span className="text-xs font-mono tracking-wider" style={{ color: "var(--c-text-faint)" }}>
                       {entry.period}
                     </span>
                   </div>
 
                   {/* Role */}
-                  <h3 className="text-base md:text-lg font-[700] text-[#f0ede6] tracking-tight mb-0.5">
+                  <h3 className="text-base md:text-lg font-[700] tracking-tight mb-0.5" style={{ color: "var(--c-text)" }}>
                     {entry.role}
                   </h3>
 
                   {/* Company */}
-                  <p className="text-sm text-[rgba(240,237,230,0.38)] mb-4">{entry.company}</p>
+                  <p className="text-sm mb-4" style={{ color: "var(--c-text-muted)" }}>{entry.company}</p>
 
                   {/* Highlights */}
                   <ul className="space-y-1.5">
                     {entry.highlights.map((h) => (
                       <li
                         key={h}
-                        className="flex items-start gap-2.5 text-sm text-[rgba(240,237,230,0.5)]"
+                        className="flex items-start gap-2.5 text-sm"
+                        style={{ color: "var(--c-text-dim)" }}
                       >
                         <span
                           className="mt-[7px] w-1.5 h-1.5 flex-shrink-0 rounded-full"
@@ -233,7 +236,7 @@ export default function Experience() {
           whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <p className="text-xs font-mono text-[rgba(240,237,230,0.25)] uppercase tracking-widest mb-5">
+          <p className="text-xs font-mono uppercase tracking-widest mb-5" style={{ color: "var(--c-text-faint)" }}>
             Arbeitsweise
           </p>
           <div className="flex flex-wrap gap-3">

@@ -66,7 +66,7 @@ export default function ScrollProgress() {
       >
         <motion.button
           onClick={scrollToTop}
-          className="relative cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#54C5F8] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f0e0c] rounded-full"
+          className="relative cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#54C5F8] rounded-full"
           style={{ width: SIZE, height: SIZE }}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.93 }}
@@ -75,14 +75,13 @@ export default function ScrollProgress() {
         >
           {/* Glass disc */}
           <div
-            className="absolute inset-0 rounded-full transition-all duration-300"
+            className="absolute inset-0 rounded-full transition-all duration-300 theme-transition"
             style={{
-              background: "rgba(15,14,12,0.88)",
-              border: "1px solid rgba(240,237,230,0.09)",
+              background: "var(--c-scroll-btn-bg)",
+              border: "1px solid var(--c-scroll-btn-border)",
               backdropFilter: "blur(16px)",
               WebkitBackdropFilter: "blur(16px)",
-              boxShadow:
-                "0 4px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04)",
+              boxShadow: "var(--c-scroll-btn-shadow)",
             }}
           />
 
@@ -110,7 +109,7 @@ export default function ScrollProgress() {
               cy={SIZE / 2}
               r={R}
               fill="none"
-              stroke="rgba(240,237,230,0.07)"
+              stroke="var(--c-scroll-track)"
               strokeWidth={2.5}
             />
             {/* Progress arc */}
@@ -146,13 +145,13 @@ export default function ScrollProgress() {
           <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full">
             <span
               className="text-[10px] font-mono tabular-nums leading-none select-none group-hover:opacity-0 transition-opacity duration-200"
-              style={{ color: "rgba(240,237,230,0.5)" }}
+              style={{ color: "var(--c-scroll-text)" }}
             >
               {pct}%
             </span>
             <span
               className="absolute text-[14px] leading-none select-none opacity-0 group-hover:opacity-100 group-hover:-translate-y-0 transition-all duration-200 translate-y-1"
-              style={{ color: "rgba(240,237,230,0.85)" }}
+              style={{ color: "var(--c-scroll-arrow)" }}
             >
               ↑
             </span>
