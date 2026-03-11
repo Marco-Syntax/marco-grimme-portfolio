@@ -16,11 +16,13 @@ interface FeatureSectionProps {
   description: string;
   bullets: readonly string[];
   code: string;
+  filename?: string;
   index: number;
 }
 
-function CodeBlock({ code, accent }: { code: string; accent: string }) {
+function CodeBlock({ code, accent, filename }: { code: string; accent: string; filename?: string }) {
   const lines = code.trim().split("\n");
+  const displayName = filename || "snippet.dart";
 
   return (
     <div
@@ -36,7 +38,7 @@ function CodeBlock({ code, accent }: { code: string; accent: string }) {
         <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/40" />
         <div className="w-2.5 h-2.5 rounded-full bg-green-400/40" />
         <span className="ml-3 text-[10px] font-mono" style={{ color: `${accent}80` }}>
-          snippet.dart
+          {displayName}
         </span>
       </div>
       {/* Code body */}
@@ -66,10 +68,20 @@ const KEYWORDS = new Set([
   "override","import","from","def","implements","private","some",
   "struct","protocol","func","let","self","super","in","if","else",
   "for","while","try","catch","throw","new","null","true","false",
+  // TypeScript / React
+  "interface","type","export","function","string","number","boolean",
+  "readonly","enum","as","is","typeof","keyof","any","never","unknown",
+  "map","style","key",
+  // Python
+  "async","list","dict","response_model","Depends",
+  // Firestore Rules
+  "match","allow","service","rules_version","read","write","create","update","delete","request","resource",
+  // Dart / Riverpod
+  "part","with","factory","required","Default",
 ]);
 
 const TOKEN_RE =
-  /@\w+|"[^"]*"|'[^']*'|\b(?:class|extends|abstract|final|const|var|await|async|return|Future|Either|List|String|int|bool|void|override|import|from|def|implements|private|some|struct|protocol|func|let|self|super)\b|\b\w+(?=\s*\()/g;
+  /@\w+|"[^"]*"|'[^']*'|`[^`]*`|\b(?:class|extends|abstract|final|const|var|await|async|return|Future|Either|List|String|int|bool|void|override|import|from|def|implements|private|some|struct|protocol|func|let|self|super|interface|type|export|function|string|number|boolean|readonly|enum|as|is|typeof|keyof|any|never|unknown|map|style|key|list|dict|response_model|Depends|match|allow|service|rules_version|read|write|create|update|delete|request|resource|part|with|factory|required|Default)\b|\b\w+(?=\s*[(<])/g;
 
 function highlightCode(line: string, accent: string): string {
   let codePart = line;
@@ -121,6 +133,7 @@ export default function FeatureSection({
   description,
   bullets,
   code,
+  filename,
   index,
 }: FeatureSectionProps) {
   return (
@@ -232,7 +245,7 @@ export default function FeatureSection({
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <CodeBlock code={code} accent={accent} />
+            <CodeBlock code={code} accent={accent} filename={filename} />
           </motion.div>
         </div>
       </div>

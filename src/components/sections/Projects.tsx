@@ -48,20 +48,20 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
       {/* Project image */}
       {project.image && (
-        <div className="relative overflow-hidden" style={{ height: "160px" }}>
+        <div className="relative overflow-hidden" style={{ height: "300px" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={project.image}
             alt={project.name}
             loading="lazy"
             decoding="async"
-            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
           />
           {/* Gradient fade to card background */}
           <div
             className="absolute inset-0"
             style={{
-              background: `linear-gradient(to bottom, transparent 35%, rgba(var(--bg), 0.92) 100%)`,
+              background: `linear-gradient(to bottom, transparent 70%, rgba(var(--bg), 0.95) 100%)`,
             }}
           />
           {/* Accent color tint on hover */}
@@ -323,7 +323,7 @@ export default function Projects() {
                   {featured.image && (
                     <motion.div
                       className="relative rounded-xl overflow-hidden flex-shrink-0"
-                      style={{ height: "220px" }}
+                      style={{ height: "300px" }}
                       initial={{ opacity: 0, scale: 0.96 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={viewportOnce}
@@ -335,8 +335,8 @@ export default function Projects() {
                         alt={featured.name}
                         className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
                       />
-                      <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${featured.accent}12 0%, transparent 40%)` }} />
-                      <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 55%, rgba(var(--bg), 0.75) 100%)` }} />
+                      <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${featured.accent}08 0%, transparent 40%)` }} />
+                      <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 70%, rgba(var(--bg), 0.6) 100%)` }} />
                       <div className="absolute inset-0 rounded-xl" style={{ boxShadow: `inset 0 0 0 1px ${featured.accent}25` }} />
                     </motion.div>
                   )}

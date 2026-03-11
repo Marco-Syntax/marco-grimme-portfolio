@@ -53,6 +53,7 @@ export default function Home() {
             description={feature.description}
             bullets={feature.bullets}
             code={feature.code}
+            filename={feature.filename}
             index={index}
           />
         ))}

@@ -8,8 +8,9 @@ const CLUSTER_COLORS: Record<string, string> = {
   "Product & Design": "#A78BFA",
   "Platforms": "#54C5F8",
   "Web": "#34D399",
+  "Firebase": "#FBBF24",
   "Backend": "#FF6B6B",
-  "Cloud & Ops": "#FBBF24",
+  "Cloud & Ops": "#38BDF8",
   "AI & Automation": "#FB923C",
 };
 

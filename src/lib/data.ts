@@ -126,23 +126,32 @@ export const features = [
     accent: "#54C5F8",
     title: "Flutter & Dart",
     subtitle: "Cross-platform at full quality.",
+    filename: "home_page.dart",
     description:
       "Production-grade Flutter Apps mit Clean Widget Architecture, Custom Animations, Riverpod State Management und flavor-basierten Multi-Environment-Builds.",
-    bullets: ["Flutter Flavors & Multi-Env", "Riverpod State Management", "Freezed Models & Codegen", "Platform Channels & Plugins"],
-    code: `// Riverpod provider with Freezed state
-@riverpod
-class AppViewModel extends _$AppViewModel {
-  @override
-  AppState build() => const AppState.initial();
+    bullets: ["FVM · Version Management", "Riverpod State Management", "Freezed Models & Codegen", "Platform Channels & Plugins"],
+    code: `// Riverpod — ref.watch vs ref.read
+class HomePage extends ConsumerWidget {
 
-  Future<void> loadData() async {
-    state = const AppState.loading();
-    final result = await ref
-      .read(repositoryProvider)
-      .fetchItems();
-    state = result.fold(
-      AppState.error,
-      AppState.success,
+  Widget build(context, WidgetRef ref) {
+    // rebuilds when data changes
+    final user = ref.watch(userProvider);
+    final items = ref.watch(listProvider);
+
+    // one-time read, no rebuild
+    final nav = ref.read(
+      routerProvider.notifier,
+    );
+
+    // AsyncValue pattern matching
+    return user.when(
+      data: (u) => Column([
+        Text(u.name),
+        ListView(items),
+        Button(onTap: nav.push('/detail')),
+      ]),
+      loading: () => Spinner(),
+      error: (e, _) => ErrorView(e),
     );
   }
 }`,
@@ -152,25 +161,42 @@ class AppViewModel extends _$AppViewModel {
     accent: "#FF6B6B",
     title: "Clean Architecture",
     subtitle: "MVVM. SOLID. Testable.",
+    filename: "architecture.dart",
     description:
       "Jede Schicht hat eine Verantwortung. Daten fließen in eine Richtung. Dependencies zeigen nach innen. Das Ergebnis: wartbare, testbare und wachstumsfähige Systeme.",
     bullets: ["MVVM + Presentation Layer", "Use Cases & Domain Layer", "Repository Pattern", "Dependency Injection"],
-    code: `// Clean separation of concerns
-abstract class ItemRepository {
-  Future<Either<Failure, List<Item>>>
-    getItems();
+    code: `// Clean Architecture — 3 Layers
+
+// 1. Domain — contracts + use cases
+abstract class Repository {
+  Future<Result<List<Entity>>> getAll();
 }
 
-class ItemRepositoryImpl
-    implements ItemRepository {
-  final RemoteDataSource remote;
-  final LocalDataSource local;
+class FetchItems {
+  final Repository repo;
+  call() => repo.getAll();
+}
 
-  @override
-  Future<Either<Failure, List<Item>>>
-      getItems() async {
-    // try remote → fallback to local
+// 2. Data — API + cache fallback
+class RepositoryImpl implements Repository {
+  final Api api;
+  final Cache cache;
+
+  getAll() async {
+    try   => api.fetch() | cache.save()
+    catch => cache.load() | Failure()
   }
+}
+
+// 3. Presentation — state machine
+class ViewModel {
+  final FetchItems useCase;
+
+  load() => useCase()
+    .fold(
+      ok:   (data) => State.loaded(data),
+      fail: (err)  => State.error(err),
+    );
 }`,
   },
   {
@@ -178,29 +204,42 @@ class ItemRepositoryImpl
     accent: "#34D399",
     title: "React & TypeScript",
     subtitle: "Modern web. Clean components.",
+    filename: "useData.ts",
     description:
       "Moderne Web-Apps mit React, TypeScript und Vite. Component-getriebene Architektur, responsives Design, SEO-Optimierung und CI/CD-automatisierte Deployments.",
     bullets: ["React + TypeScript + Vite", "Responsive & SEO-optimiert", "Docker & Nginx Deployment", "CI/CD Automation"],
-    code: `// React component with TypeScript
-interface ProjectCardProps {
-  name: string;
-  stack: string[];
-  accent: string;
-}
+    code: `// Custom Hook — state + effect + memo
+import { useState, useEffect, useMemo,
+  useCallback } from 'react'
 
-export function ProjectCard({
-  name, stack, accent,
-}: ProjectCardProps) {
-  return (
-    <article style={{ borderColor: accent }}>
-      <h3>{name}</h3>
-      <ul>
-        {stack.map(tech => (
-          <li key={tech}>{tech}</li>
-        ))}
-      </ul>
-    </article>
-  );
+export function useData<T>(url: string) {
+  const [data, setData] = useState<T>()
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string>()
+
+  // effect: fetch on mount + url change
+  useEffect(() => {
+    setLoading(true)
+    fetch(url)
+      .then((r) => r.json())
+      .then((d) => setData(d))
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false))
+  }, [url])
+
+  // memo: derived state, no re-compute
+  const count = useMemo(
+    () => (data as any[])?.length ?? 0,
+    [data],
+  )
+
+  // callback: stable fn reference
+  const refetch = useCallback(
+    () => setLoading(true), []
+  )
+
+  return { data, count, loading,
+    error, refetch }
 }`,
   },
   {
@@ -208,27 +247,88 @@ export function ProjectCard({
     accent: "#A78BFA",
     title: "Backend & APIs",
     subtitle: "Python. FastAPI. Production-ready.",
+    filename: "routes/generate.py",
     description:
       "FastAPI-Backends für Mobile Apps, Automatisierungspipelines mit n8n, KI-Integrationen via OpenAI und Claude – containerisiert mit Docker und Nginx.",
     bullets: ["FastAPI + Pydantic", "OpenAI & KI-Integration", "n8n Workflow-Automation", "Docker & MariaDB"],
-    code: `# FastAPI with clean dependency injection
-@router.get("/items", response_model=list[Item])
-async def get_items(
-  current_user: User = Depends(get_current_user),
-  repo: ItemRepo = Depends(get_repo),
-) -> list[Item]:
-  return await repo.find_by_user(
-    user_id=current_user.id,
-    limit=50,
-  )`,
+    code: `# FastAPI — Dependency Injection Pattern
+
+@router.post("/generate")
+async def generate(
+  req: Request,                   # Pydantic
+  user: User = Depends(get_user), # Auth DI
+  ai: AI     = Depends(get_ai),   # Service DI
+  db: DB     = Depends(get_db),   # Database DI
+):
+  # validate → transform → execute
+  prompt = build_prompt(
+    topic=req.topic,
+    context=req.context,
+  )
+
+  result = await ai.complete(
+    model="gpt-4o",
+    prompt=prompt,
+    max_tokens=2048,
+  )
+
+  record = await db.insert(
+    user_id=user.id,
+    content=parse(result),
+  )
+
+  return {"id": record.id, "ok": True}`,
+  },
+  {
+    id: "firebase",
+    accent: "#FBBF24",
+    title: "Firebase & Cloud",
+    subtitle: "Realtime. Auth. Scalable.",
+    filename: "firestore.rules",
+    description:
+      "Firebase als zentrales Backend: Firestore mit Nested und Top-Level Collections, Authentication mit Multi-Provider Login, Cloud Storage, Crashlytics und Push Notifications.",
+    bullets: ["Firestore Nested & Top-Level", "Auth · Multi-Provider", "Security Rules", "Crashlytics & Messaging"],
+    code: `// Firestore Security Rules
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+
+    // User profile: owner only
+    match /users/{uid} {
+      allow read, write:
+        if request.auth.uid == uid;
+
+      // Nested sub-collection
+      match /settings/{doc} {
+        allow read, write:
+          if request.auth.uid == uid;
+      }
+    }
+
+    // Top-Level: public read, auth write
+    match /items/{itemId} {
+      allow read: if true;
+      allow create:
+        if request.auth != null
+        && request.resource.data.title
+            is string
+        && request.resource.data.title
+            .size() <= 120;
+      allow update, delete:
+        if request.auth.uid
+          == resource.data.ownerId;
+    }
+  }
+}`,
   },
 ] as const;
 
 export const skills = {
   "Product & Design": ["Figma", "Design Systems", "Prototyping", "Responsive Patterns"],
-  "Platforms": ["Flutter · Dart", "SwiftUI · UIKit", "Kotlin · Android", "Flutter Web", "Riverpod · Freezed"],
+  "Platforms": ["Flutter · Dart", "SwiftUI · UIKit", "Kotlin · Android", "Flutter Web", "Riverpod · Freezed", "FVM"],
   "Web": ["React · Vite", "TypeScript", "Tailwind CSS", "Node.js · Express"],
+  "Firebase": ["Firestore Database", "Authentication", "Cloud Storage", "Crashlytics", "Cloud Messaging", "Security Rules", "Nested Collections", "Top-Level Design"],
   "Backend": ["Python · FastAPI", "MariaDB", "REST · JSON", "JWT · Auth", "Pydantic", "PayPal · Stripe"],
-  "Cloud & Ops": ["Docker · Compose", "Nginx", "CI/CD", "Firebase", "netcup · n8n", "Let's Encrypt"],
+  "Cloud & Ops": ["Docker · Compose", "Nginx", "CI/CD", "netcup · n8n", "Let's Encrypt"],
   "AI & Automation": ["OpenAI · Claude", "Perplexity", "Vector Embeddings", "n8n Workflows"],
 } as const;

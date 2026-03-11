@@ -86,7 +86,7 @@ function SunglassesOverlay({ progress }: { progress: MotionValue<number> }) {
     <motion.div
       className="absolute left-0 right-0 pointer-events-none"
       style={{
-        top: "24%",
+        top: "31%",
         y,
         opacity,
         rotate,
@@ -95,7 +95,7 @@ function SunglassesOverlay({ progress }: { progress: MotionValue<number> }) {
         filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.35))",
       }}
     >
-      <div className="relative mx-auto" style={{ width: "44%" }}>
+      <div className="relative mx-auto" style={{ width: "33%" }}>
         {/* ── SVG sunglasses — sleek aviator style ── */}
         <svg
           viewBox="0 0 200 52"
@@ -191,7 +191,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
           style={{ width: "54%", height: "54%", pointerEvents: "auto" }}
         >
           <img
-            src="/img/images/marco_grimme.jpg"
+            src="/img/images/marco_grimme.png"
             alt="Marco Grimme"
             className="w-full h-full object-cover"
             draggable={false}
