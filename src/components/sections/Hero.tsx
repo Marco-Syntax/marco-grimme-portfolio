@@ -46,6 +46,134 @@ function AnimatedStat({ value, suffix, label, color, delay }: {
   );
 }
 
+/* ── Sunglasses overlay (scroll-driven cinematic animation) ──────────────── */
+function SunglassesOverlay({ progress }: { progress: MotionValue<number> }) {
+  // Scroll progress is 0→1 over 200vh section.
+  // Sticky phase = progress 0→0.5 (100vh of scroll, hero pinned).
+  // Glasses animation fires in the very first scroll ticks:
+  //   0.00        idle — no glasses
+  //   0.01→0.03   fade in
+  //   0.03→0.12   drop into position with rotation
+  //   0.12→0.16   overshoot + settle
+  //   0.16→0.24   shine sweep
+  //   0.24+       glasses fixed in place
+
+  const y = useTransform(
+    progress,
+    [0, 0.01, 0.11, 0.14, 0.16],
+    ["-220%", "-220%", "6%", "-3%", "0%"],
+  );
+  const opacity = useTransform(progress, [0, 0.01, 0.04], [0, 0, 1]);
+  const rotate = useTransform(
+    progress,
+    [0, 0.01, 0.10, 0.14, 0.16],
+    [-14, -14, 2.5, -1, 0],
+  );
+  const scaleVal = useTransform(
+    progress,
+    [0, 0.01, 0.11, 0.14, 0.16],
+    [0.65, 0.65, 1.06, 0.97, 1],
+  );
+
+  // Shine sweep after landing
+  const shineX = useTransform(progress, [0.16, 0.26], ["-100%", "300%"]);
+  const shineOpacity = useTransform(progress, [0.16, 0.18, 0.23, 0.26], [0, 0.65, 0.65, 0]);
+
+  // Subtle glow bloom
+  const glowOpacity = useTransform(progress, [0.14, 0.22], [0, 0.3]);
+
+  return (
+    <motion.div
+      className="absolute left-0 right-0 pointer-events-none"
+      style={{
+        top: "24%",
+        y,
+        opacity,
+        rotate,
+        scale: scaleVal,
+        transformOrigin: "center 30%",
+        filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.35))",
+      }}
+    >
+      <div className="relative mx-auto" style={{ width: "44%" }}>
+        {/* ── SVG sunglasses — sleek aviator style ── */}
+        <svg
+          viewBox="0 0 200 52"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-auto"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="sg-lens-l" x1="0" y1="0" x2="0.3" y2="1">
+              <stop offset="0%" stopColor="#1c1e3e" stopOpacity={0.92} />
+              <stop offset="50%" stopColor="#101228" stopOpacity={0.95} />
+              <stop offset="100%" stopColor="#080a1a" stopOpacity={0.98} />
+            </linearGradient>
+            <linearGradient id="sg-lens-r" x1="0.7" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#1c1e3e" stopOpacity={0.92} />
+              <stop offset="50%" stopColor="#101228" stopOpacity={0.95} />
+              <stop offset="100%" stopColor="#080a1a" stopOpacity={0.98} />
+            </linearGradient>
+            <linearGradient id="sg-glare" x1="0.1" y1="0" x2="0.6" y2="0.9">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity={0.16} />
+              <stop offset="30%" stopColor="#aaccff" stopOpacity={0.06} />
+              <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+            </linearGradient>
+            <linearGradient id="sg-frame" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#6a6a88" />
+              <stop offset="100%" stopColor="#2e2e4a" />
+            </linearGradient>
+          </defs>
+
+          {/* Top frame bar */}
+          <rect x="4" y="8" width="192" height="3" rx="1.5" fill="url(#sg-frame)" />
+
+          {/* Left lens */}
+          <rect x="5" y="10.5" width="86" height="32" rx="7" fill="url(#sg-lens-l)" stroke="url(#sg-frame)" strokeWidth="1.8" />
+          <rect x="5" y="10.5" width="86" height="32" rx="7" fill="url(#sg-glare)" />
+
+          {/* Right lens */}
+          <rect x="109" y="10.5" width="86" height="32" rx="7" fill="url(#sg-lens-r)" stroke="url(#sg-frame)" strokeWidth="1.8" />
+          <rect x="109" y="10.5" width="86" height="32" rx="7" fill="url(#sg-glare)" />
+
+          {/* Bridge */}
+          <path d="M91 17 C96 9, 104 9, 109 17" stroke="url(#sg-frame)" strokeWidth="2" fill="none" strokeLinecap="round" />
+
+          {/* Temple arm hints */}
+          <line x1="5" y1="15" x2="0" y2="13" stroke="url(#sg-frame)" strokeWidth="1.3" strokeLinecap="round" opacity={0.45} />
+          <line x1="195" y1="15" x2="200" y2="13" stroke="url(#sg-frame)" strokeWidth="1.3" strokeLinecap="round" opacity={0.45} />
+        </svg>
+
+        {/* ── Animated shine sweep on lenses ── */}
+        <motion.div
+          className="absolute inset-0 overflow-hidden pointer-events-none"
+          style={{ opacity: shineOpacity }}
+        >
+          <motion.div
+            className="absolute top-[20%] bottom-[15%] w-[14%]"
+            style={{
+              left: shineX,
+              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
+              filter: "blur(2px)",
+            }}
+          />
+        </motion.div>
+
+        {/* ── Subtle glow bloom ── */}
+        <motion.div
+          className="absolute inset-[-20%] pointer-events-none"
+          style={{
+            opacity: glowOpacity,
+            background: "radial-gradient(ellipse at center, rgba(84,197,248,0.1) 0%, transparent 70%)",
+            filter: "blur(8px)",
+          }}
+        />
+      </div>
+    </motion.div>
+  );
+}
+
 /* ── Hero ring (animated SVG) ────────────────────────────────────────────── */
 function HeroRing({ progress }: { progress: MotionValue<number> }) {
   const rotate = useTransform(progress, [0, 1], [0, 180]);
@@ -56,6 +184,26 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
       className="absolute inset-0 flex items-center justify-center pointer-events-none"
       style={{ scale }}
     >
+      {/* Profile photo — clear image */}
+      <div className="absolute inset-0 flex items-center justify-center" style={{ pointerEvents: "none" }}>
+        <div
+          className="rounded-full overflow-hidden"
+          style={{ width: "54%", height: "54%", pointerEvents: "auto" }}
+        >
+          <img
+            src="/img/images/marco_grimme.jpg"
+            alt="Marco Grimme"
+            className="w-full h-full object-cover"
+            draggable={false}
+          />
+        </div>
+      </div>
+      {/* Sunglasses overlay — floats above photo, not clipped to circle */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 5 }}>
+        <div className="relative" style={{ width: "54%", height: "54%" }}>
+          <SunglassesOverlay progress={progress} />
+        </div>
+      </div>
       <svg viewBox="0 0 500 500" className="w-full h-full max-w-[500px] max-h-[500px]" suppressHydrationWarning>
         {/* Outer ring - multicolor arc */}
         <motion.circle
@@ -113,23 +261,6 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
             />
           );
         })}
-        {/* Center dot grid — static for performance */}
-        {Array.from({ length: 9 }).map((_, row) =>
-          Array.from({ length: 9 }).map((_, col) => {
-            const x = 160 + col * 22.5;
-            const y = 160 + row * 22.5;
-            const dist = Math.sqrt((x - 250) ** 2 + (y - 250) ** 2);
-            if (dist > 90) return null;
-            return (
-              <circle
-                key={`${row}-${col}`}
-                cx={x} cy={y} r="1.5"
-                fill="var(--c-ring-dot)"
-                className="hero-dot"
-              />
-            );
-          })
-        )}
         {/* Gradient definition */}
         <defs>
           <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -154,9 +285,10 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
+  // Section is 200vh: progress 0→0.5 = sticky phase (hero pinned), 0.5→1 = scrolls away
+  const textY = useTransform(scrollYProgress, [0, 0.5, 1], ["0%", "0%", "-25%"]);
   const ringProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 0.9], [1, 1, 0]);
 
   const wordVariants: Variants = {
     hidden: { opacity: 0, y: "110%", rotateX: -30 },
@@ -175,10 +307,12 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex flex-col grid-dots overflow-hidden theme-transition"
+      className="relative grid-dots theme-transition"
       id="hero"
-      style={{ background: "var(--c-bg)" }}
+      style={{ background: "var(--c-bg)", height: "200vh" }}
     >
+     {/* Sticky wrapper — pins the hero in place during sunglasses animation */}
+     <div className="sticky top-0 h-screen flex flex-col overflow-hidden">
       {/* Ring visual — right side */}
       <motion.div
         className="absolute right-[-5%] md:right-[3%] top-1/2 -translate-y-1/2 w-[480px] h-[480px] md:w-[560px] md:h-[560px] opacity-90"
@@ -321,6 +455,7 @@ export default function Hero() {
           </span>
         </motion.div>
       </motion.div>
+     </div>{/* end sticky wrapper */}
     </section>
   );
 }
