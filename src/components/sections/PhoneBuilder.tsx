@@ -70,7 +70,7 @@ export default function PhoneBuilder() {
   });
 
   // Smooth spring — drives every transform
-  const sp = useSpring(scrollYProgress, { stiffness: 60, damping: 28, restDelta: 0.005 });
+  const sp = useSpring(scrollYProgress, { stiffness: 75, damping: 28, restDelta: 0.005 });
 
   // ── FRAME ──────────────────────────────────────────────────────────────
   const frameScale   = useTransform(sp, [0, 0.14], [0.55, 1]);
@@ -129,7 +129,7 @@ export default function PhoneBuilder() {
       ref={ref}
       id="phone-builder"
       className="relative bg-[#0f0e0c]"
-      style={{ height: "400vh" }}
+      style={{ height: "380vh" }}
     >
       {/* ── STICKY PANEL ──────────────────────────────────────────────── */}
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden" style={{ transform: 'translateZ(0)' }}>
@@ -428,6 +428,7 @@ export default function PhoneBuilder() {
                     background: "rgba(0,0,0,0.55)",
                     border: "1px solid rgba(240,237,230,0.07)",
                     backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)", // required for Safari
                     opacity: navOpacity,
                     y: navY,
                   }}

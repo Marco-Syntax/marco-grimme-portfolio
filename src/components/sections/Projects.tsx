@@ -1,7 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeUp, fadeUpDramatic, staggerContainer, staggerContainerSlow, viewportOnce } from "@/lib/motion";
+import {
+  fadeUp,
+  fadeUpDramatic,
+  staggerContainer,
+  staggerContainerSlow,
+  viewportOnce,
+} from "@/lib/motion";
 import { projects, type Project } from "@/lib/data";
 
 // ─── Small project card (Apps + Web grid) ────────────────────────────────────
@@ -14,7 +20,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           opacity: 1,
           y: 0,
           scale: 1,
-          transition: { duration: 0.6, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] },
+          transition: {
+            duration: 0.6,
+            delay: index * 0.08,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          },
         },
       }}
       className="group relative rounded-2xl border overflow-hidden flex flex-col cursor-default"
@@ -31,28 +41,72 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     >
       {/* Glow top edge */}
       <div
-        className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: `linear-gradient(90deg, transparent, ${project.accent}70, transparent)` }}
+        className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${project.accent}70, transparent)`,
+        }}
       />
 
-      {/* Hover glow background */}
-      <div
-        className="absolute top-0 right-0 w-[200px] h-[200px] rounded-full blur-[80px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: project.accent, opacity: 0 }}
-      />
-
-      <div className="p-6 md:p-7 flex-1 relative">
-        {/* Category + dot */}
-        <div className="flex items-center gap-2 mb-4">
-          <motion.div
-            className="w-1.5 h-1.5 rounded-full"
-            style={{ background: project.accent }}
-            whileHover={{ scale: 1.5 }}
+      {/* ── Project image ──────────────────────────────────────────────── */}
+      {project.image && (
+        <div className="relative overflow-hidden" style={{ height: "160px" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={project.image}
+            alt={project.name}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
           />
-          <span className="text-[10px] font-mono text-[rgba(240,237,230,0.3)] uppercase tracking-widest">
-            {project.category}
-          </span>
+          {/* Gradient fade to card background */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(to bottom, transparent 35%, rgba(15,14,12,0.92) 100%)`,
+            }}
+          />
+          {/* Accent color tint on hover */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{
+              background: `linear-gradient(to bottom, ${project.accent}10 0%, transparent 60%)`,
+            }}
+          />
+          {/* Category badge floated over image */}
+          <div className="absolute top-3 left-3 flex items-center gap-1.5">
+            <div
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: project.accent }}
+            />
+            <span
+              className="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full"
+              style={{
+                background: "rgba(15,14,12,0.7)",
+                color: `${project.accent}cc`,
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)", // required for Safari
+              }}
+            >
+              {project.category}
+            </span>
+          </div>
         </div>
+      )}
+
+      <div className="p-5 md:p-6 flex-1 relative">
+        {/* Category dot (only when no image) */}
+        {!project.image && (
+          <div className="flex items-center gap-2 mb-4">
+            <motion.div
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: project.accent }}
+              whileHover={{ scale: 1.5 }}
+            />
+            <span className="text-[10px] font-mono text-[rgba(240,237,230,0.3)] uppercase tracking-widest">
+              {project.category}
+            </span>
+          </div>
+        )}
 
         {/* Name */}
         <h3 className="text-lg md:text-xl font-[700] text-[#f0ede6] tracking-tight mb-1.5">
@@ -60,7 +114,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </h3>
 
         {/* Headline */}
-        <p className="text-sm font-medium mb-3.5" style={{ color: `${project.accent}cc` }}>
+        <p
+          className="text-sm font-medium mb-3.5"
+          style={{ color: `${project.accent}cc` }}
+        >
           {project.headline}
         </p>
 
@@ -89,7 +146,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
       {/* Link footer */}
       {project.link && (
-        <div className="px-6 md:px-7 pb-5 pt-1 flex items-center justify-between border-t" style={{ borderColor: `${project.accent}10` }}>
+        <div
+          className="px-5 md:px-6 pb-5 pt-1 flex items-center justify-between border-t"
+          style={{ borderColor: `${project.accent}10` }}
+        >
           <span className="text-[10px] font-mono text-[rgba(240,237,230,0.2)] uppercase tracking-widest">
             {project.type === "app" ? "App Store" : "Website"}
           </span>
@@ -101,7 +161,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             style={{ color: project.accent }}
             onClick={(e) => e.stopPropagation()}
           >
-            Öffnen <span className="group-hover:translate-x-0.5 transition-transform inline-block">→</span>
+            Öffnen{" "}
+            <span className="group-hover:translate-x-0.5 transition-transform inline-block">
+              →
+            </span>
           </a>
         </div>
       )}
@@ -110,7 +173,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 }
 
 // ─── Section label ────────────────────────────────────────────────────────────
-function SectionLabel({ label, sub, accent }: { label: string; sub: string; accent: string }) {
+function SectionLabel({
+  label,
+  sub,
+  accent,
+}: {
+  label: string;
+  sub: string;
+  accent: string;
+}) {
   return (
     <motion.div
       className="mb-8 flex items-end justify-between"
@@ -120,7 +191,10 @@ function SectionLabel({ label, sub, accent }: { label: string; sub: string; acce
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div>
-        <p className="text-xs font-mono uppercase tracking-widest mb-2" style={{ color: `${accent}80` }}>
+        <p
+          className="text-xs font-mono uppercase tracking-widest mb-2"
+          style={{ color: `${accent}80` }}
+        >
           {label}
         </p>
         <p className="text-sm text-[rgba(240,237,230,0.35)]">{sub}</p>
@@ -151,7 +225,6 @@ export default function Projects() {
       <div className="absolute inset-0 grid-dots pointer-events-none" />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
-
         {/* ── Section header ── */}
         <motion.div
           className="mb-16 md:mb-20"
@@ -166,7 +239,10 @@ export default function Projects() {
           >
             Ausgewählte Arbeiten
           </motion.p>
-          <motion.div variants={fadeUpDramatic} className="flex flex-col md:flex-row md:items-end gap-4 md:gap-10">
+          <motion.div
+            variants={fadeUpDramatic}
+            className="flex flex-col md:flex-row md:items-end gap-4 md:gap-10"
+          >
             <h2
               className="font-[800] text-[#f0ede6] leading-[0.93] tracking-tight"
               style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)" }}
@@ -201,12 +277,14 @@ export default function Projects() {
             {/* Top glow */}
             <div
               className="absolute top-0 left-0 right-0 h-[1px] opacity-50"
-              style={{ background: `linear-gradient(90deg, transparent, ${featured.accent}, transparent)` }}
+              style={{
+                background: `linear-gradient(90deg, transparent, ${featured.accent}, transparent)`,
+              }}
             />
-            {/* Subtle radial bg */}
+            {/* Subtle radial bg — GPU promoted to avoid per-scroll repaint on Safari */}
             <div
               className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none opacity-10"
-              style={{ background: featured.accent }}
+              style={{ background: featured.accent, transform: "translateZ(0)" }}
             />
 
             <div className="relative p-8 md:p-12">
@@ -215,13 +293,19 @@ export default function Projects() {
                 {/* Left: heading + description */}
                 <div>
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-2 h-2 rounded-full" style={{ background: featured.accent }} />
+                    <div
+                      className="w-2 h-2 rounded-full"
+                      style={{ background: featured.accent }}
+                    />
                     <span className="text-[10px] font-mono text-[rgba(240,237,230,0.3)] uppercase tracking-widest">
                       {featured.category}
                     </span>
                     <span
                       className="text-[10px] font-mono px-2.5 py-1 rounded-full border"
-                      style={{ borderColor: `${featured.accent}35`, color: featured.accent }}
+                      style={{
+                        borderColor: `${featured.accent}35`,
+                        color: featured.accent,
+                      }}
                     >
                       Spotlight
                     </span>
@@ -229,11 +313,17 @@ export default function Projects() {
 
                   <h3
                     className="font-[800] text-[#f0ede6] tracking-tight mb-3"
-                    style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", lineHeight: "0.95" }}
+                    style={{
+                      fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                      lineHeight: "0.95",
+                    }}
                   >
                     {featured.name}
                   </h3>
-                  <p className="text-base font-medium mb-4" style={{ color: featured.accent }}>
+                  <p
+                    className="text-base font-medium mb-4"
+                    style={{ color: featured.accent }}
+                  >
                     {featured.headline}
                   </p>
                   <p className="text-sm text-[rgba(240,237,230,0.5)] leading-relaxed max-w-md">
@@ -247,7 +337,10 @@ export default function Projects() {
                       "Keine Registrierung, keine Cloud-Pflicht, volle Offline-Nutzung",
                       "Einmalkauf statt Abo – klar kalkulierbar",
                     ].map((bullet) => (
-                      <li key={bullet} className="flex items-start gap-2.5 text-sm text-[rgba(240,237,230,0.5)]">
+                      <li
+                        key={bullet}
+                        className="flex items-start gap-2.5 text-sm text-[rgba(240,237,230,0.5)]"
+                      >
                         <span
                           className="mt-[7px] w-1.5 h-1.5 flex-shrink-0 rounded-full"
                           style={{ background: `${featured.accent}60` }}
@@ -258,9 +351,50 @@ export default function Projects() {
                   </ul>
                 </div>
 
-                {/* Right: stack + CTA */}
-                <div className="flex flex-col justify-between">
-                  <div className="flex flex-wrap gap-2 mb-8">
+                {/* Right: project image + stack + CTA */}
+                <div className="flex flex-col gap-6">
+                  {/* Featured project screenshot */}
+                  {featured.image && (
+                    <motion.div
+                      className="relative rounded-xl overflow-hidden flex-shrink-0"
+                      style={{ height: "220px" }}
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={viewportOnce}
+                      transition={{ duration: 0.7, delay: 0.25 }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={featured.image}
+                        alt={featured.name}
+                        className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
+                      />
+                      {/* Gradient overlays */}
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background: `linear-gradient(135deg, ${featured.accent}12 0%, transparent 40%)`,
+                        }}
+                      />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background:
+                            "linear-gradient(to bottom, transparent 55%, rgba(15,14,12,0.75) 100%)",
+                        }}
+                      />
+                      {/* Border glow */}
+                      <div
+                        className="absolute inset-0 rounded-xl"
+                        style={{
+                          boxShadow: `inset 0 0 0 1px ${featured.accent}25`,
+                        }}
+                      />
+                    </motion.div>
+                  )}
+
+                  {/* Stack badges */}
+                  <div className="flex flex-wrap gap-2">
                     {featured.stack.map((tech) => (
                       <span
                         key={tech}
@@ -288,12 +422,16 @@ export default function Projects() {
                         background: `${featured.accent}0d`,
                       }}
                       onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLAnchorElement).style.background = `${featured.accent}1a`;
-                        (e.currentTarget as HTMLAnchorElement).style.borderColor = `${featured.accent}70`;
+                        (e.currentTarget as HTMLAnchorElement).style.background =
+                          `${featured.accent}1a`;
+                        (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                          `${featured.accent}70`;
                       }}
                       onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLAnchorElement).style.background = `${featured.accent}0d`;
-                        (e.currentTarget as HTMLAnchorElement).style.borderColor = `${featured.accent}40`;
+                        (e.currentTarget as HTMLAnchorElement).style.background =
+                          `${featured.accent}0d`;
+                        (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                          `${featured.accent}40`;
                       }}
                     >
                       Im App Store ansehen →

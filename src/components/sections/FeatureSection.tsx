@@ -133,7 +133,8 @@ export default function FeatureSection({
       id={id}
       className="relative min-h-screen bg-[#0f0e0c] flex items-center py-24 overflow-hidden"
     >
-      {/* Subtle glow from accent */}
+      {/* Subtle glow from accent — translateZ(0) promotes to GPU compositor layer
+          so Safari doesn't repaint the blur on every scroll frame */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -146,6 +147,8 @@ export default function FeatureSection({
           background: accent,
           opacity: 0.03,
           filter: "blur(120px)",
+          transform: "translateZ(0)",
+          willChange: "transform",
         }}
       />
 

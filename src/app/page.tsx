@@ -8,6 +8,7 @@ import PhoneBuilder from "@/components/sections/PhoneBuilder";
 import WebBuilder from "@/components/sections/WebBuilder";
 import Anatomy from "@/components/sections/Anatomy";
 import FeatureSection from "@/components/sections/FeatureSection";
+import ProjectVisuals from "@/components/sections/ProjectVisuals";
 import Projects from "@/components/sections/Projects";
 import Stack from "@/components/sections/Stack";
 import Experience from "@/components/sections/Experience";
@@ -57,7 +58,10 @@ export default function Home() {
           />
         ))}
 
-        {/* 6. Projects — dark, featured + grid */}
+        {/* 6. Project visuals — image showcase with parallax */}
+        <ProjectVisuals />
+
+        {/* 7. Projects — dark, featured + grid */}
         <Projects />
 
         {/* Transition: dark → light */}

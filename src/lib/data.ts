@@ -9,6 +9,7 @@ export interface Project {
   highlight?: boolean;
   type: "app" | "web";
   link?: string;
+  image?: string;
 }
 
 export const projects: Project[] = [
@@ -24,6 +25,7 @@ export const projects: Project[] = [
     highlight: true,
     type: "app",
     link: "https://apps.apple.com/us/app/business-organizer/id6757642745",
+    image: "/img/images/business_organizer.png",
   },
   {
     id: "checker-club",
@@ -36,6 +38,7 @@ export const projects: Project[] = [
     accent: "#FBBF24",
     type: "app",
     link: "https://apps.apple.com/us/app/checker-club/id6742713281",
+    image: "/img/images/checker_club.png",
   },
   {
     id: "dream-feed",
@@ -48,6 +51,7 @@ export const projects: Project[] = [
     accent: "#FB923C",
     type: "app",
     link: "https://apps.apple.com/app/id6742332656",
+    image: "/img/images/dream_feed.png",
   },
   {
     id: "nextlevel-mindset",
@@ -60,6 +64,7 @@ export const projects: Project[] = [
     accent: "#A78BFA",
     type: "app",
     link: "https://apps.apple.com/app/id6749188795",
+    image: "/img/images/next.png",
   },
   {
     id: "monster-run",
@@ -72,6 +77,7 @@ export const projects: Project[] = [
     accent: "#FF6B6B",
     type: "app",
     link: "https://apps.apple.com/de/app/monster-run/id6752010094",
+    image: "/img/images/monster_run.png",
   },
   {
     id: "business-digital",
@@ -84,6 +90,7 @@ export const projects: Project[] = [
     accent: "#38BDF8",
     type: "web",
     link: "https://tool.grimmedigital.de",
+    image: "/img/images/business_dashborad.png",
   },
   {
     id: "lerne-mit-ki",
@@ -96,6 +103,7 @@ export const projects: Project[] = [
     accent: "#34D399",
     type: "web",
     link: "https://lernemitki.de",
+    image: "/img/images/lerne_mit_ki.png",
   },
   {
     id: "kiforkids",
@@ -108,6 +116,7 @@ export const projects: Project[] = [
     accent: "#22D3EE",
     type: "web",
     link: "https://kiforkids.de",
+    image: "/img/images/ki_for_kids.png",
   },
 ];
 

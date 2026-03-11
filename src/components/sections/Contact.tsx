@@ -31,10 +31,15 @@ export default function Contact() {
         </svg>
       </div>
 
-      {/* Animated glow */}
+      {/* Animated glow — inline style.transform overrides Tailwind's CSS custom-property
+          translate, so we must include the full transform chain here instead of using
+          the -translate-x/y Tailwind classes alongside an inline style. */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(84,197,248,0.06) 0%, transparent 70%)", transform: 'translateZ(0)' }}
+        className="absolute top-1/2 left-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(84,197,248,0.06) 0%, transparent 70%)",
+          transform: "translate(-50%, -50%) translateZ(0)",
+        }}
       />
 
       <div className="relative z-10 max-w-[1400px] mx-auto w-full">

@@ -58,6 +58,9 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
     >
       <svg viewBox="0 0 500 500" className="w-full h-full max-w-[500px] max-h-[500px]" suppressHydrationWarning>
         {/* Outer ring - multicolor arc */}
+        {/* transformBox:"fill-box" + transformOrigin:"center" is the cross-browser
+            correct way to rotate SVG elements around their own center on Safari.
+            Without transformBox, Safari uses the SVG viewport origin (0,0) instead. */}
         <motion.circle
           cx="250" cy="250" r="230"
           fill="none" strokeWidth="2"
@@ -65,7 +68,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
           strokeOpacity={0.8}
           strokeDasharray="1440"
           strokeLinecap="round"
-          style={{ rotate, transformOrigin: "50% 50%" }}
+          style={{ rotate, transformBox: "fill-box", transformOrigin: "center" }}
         />
         {/* Mid ring - dashed */}
         <motion.circle
@@ -75,7 +78,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
           strokeDasharray="4 8"
           animate={{ rotate: [0, 360] }}
           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "50% 50%" }}
+          style={{ transformBox: "fill-box", transformOrigin: "center" }}
         />
         {/* Inner ring */}
         <motion.circle
@@ -91,7 +94,7 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
           strokeDasharray="2 6"
           animate={{ rotate: [360, 0] }}
           transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "50% 50%" }}
+          style={{ transformBox: "fill-box", transformOrigin: "center" }}
         />
         {/* Tick marks on outer ring */}
         {Array.from({ length: 72 }).map((_, i) => {
@@ -222,9 +225,10 @@ export default function Hero() {
         </div>
 
         {/* Display headline — word by word reveal */}
+        {/* perspective is required for correct Safari rendering of rotateX on text */}
         <div
           className="font-sans font-[800] text-[#f0ede6] leading-[0.93] tracking-[-0.03em] mb-8"
-          style={{ fontSize: "clamp(3.2rem, 8.5vw, 7.5rem)" }}
+          style={{ fontSize: "clamp(3.2rem, 8.5vw, 7.5rem)", perspective: "1000px" }}
           aria-label="Mobile App Developer"
         >
           {ROLE_WORDS.map((word, i) => (

@@ -88,10 +88,11 @@ export default function Stack() {
                     style={{ background: `linear-gradient(90deg, transparent, ${color}60, transparent)` }}
                   />
 
-                  {/* Cluster background accent */}
+                  {/* Cluster background accent — translateZ(0) promotes to GPU layer,
+                      preventing per-frame CPU repaints from the blur filter on Safari */}
                   <div
                     className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl pointer-events-none opacity-20"
-                    style={{ background: color }}
+                    style={{ background: color, transform: "translateZ(0)" }}
                   />
 
                   {/* Cluster header */}
@@ -117,11 +118,13 @@ export default function Stack() {
                       <motion.span
                         key={skill}
                         variants={{
-                          hidden: { opacity: 0, scale: 0.8, filter: "blur(4px)" },
+                          // filter:blur removed — animating blur on many small elements
+                          // causes expensive GPU compositing on Safari (each element gets
+                          // its own layer). opacity+scale achieves the same reveal effect.
+                          hidden: { opacity: 0, scale: 0.8 },
                           visible: {
                             opacity: 1,
                             scale: 1,
-                            filter: "blur(0px)",
                             transition: {
                               duration: 0.45,
                               delay: i * 0.06,

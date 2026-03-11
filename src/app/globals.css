@@ -23,9 +23,8 @@
   --bg-light: #dcd8cc;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* scroll-behavior on <html> removed — all smooth scrolling is handled via JS
+   scrollTo({behavior:'smooth'}). Having both causes double-scroll jank on Safari. */
 
 * {
   box-sizing: border-box;
@@ -34,11 +33,19 @@ html {
 body {
   background-color: #0f0e0c;
   color: #f0ede6;
-  overflow-x: hidden;
+  /* overflow-x: clip instead of hidden — clip does NOT create a scroll container,
+     so position:sticky children keep working correctly on Safari.
+     overflow:hidden creates a BFC/scroll container which breaks sticky on Safari. */
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-space-grotesk), sans-serif;
-  -webkit-overflow-scrolling: touch;
+  /* Prevent iOS Safari rubber-band overscroll from pushing scrollYProgress outside
+     [0,1], which causes Framer Motion transforms to briefly flash at wrong positions */
+  overscroll-behavior-y: none;
+  /* Prevent Safari mobile from auto-inflating font sizes */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 ::-webkit-scrollbar {
