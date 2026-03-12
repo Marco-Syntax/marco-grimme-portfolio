@@ -12,7 +12,7 @@ const LAYERS = [
   { id: "local", label: "Local Storage", sub: "Room · Core Data", color: "#FF6B6B", y: 5 },
 ];
 
-const RIGHT_LABELS = ["MVVM", "Clean Code", "SOLID", "Testable", "Flutter Flavors", "CI/CD"];
+const RIGHT_LABELS = ["MVVM", "Clean Code", "Vererbung", "Testable", "Flutter Flavors", "CI/CD"];
 
 export default function Anatomy() {
   const ref = useRef<HTMLDivElement>(null);
