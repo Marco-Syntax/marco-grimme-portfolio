@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView, type MotionValue, type Variants } from "framer-motion";
+import { AppWindow, Database, MapPinned, Workflow, type LucideIcon } from "lucide-react";
 import { FlickeringGrid } from "@/components/ui/FlickeringGrid";
 
 const ROLE_WORDS = ["Mobile", "App", "Developer."];
@@ -11,6 +13,102 @@ const STATS = [
   { value: 8, suffix: "+", label: "Apps gebaut", color: "#54C5F8" },
   { value: 5, suffix: "", label: "Plattformen", color: "#34D399" },
   { value: 92, suffix: "%", label: "IHK-Note", color: "#FBBF24" },
+];
+
+type OrbitIconItem = {
+  label: string;
+  short?: string;
+  icon?: LucideIcon;
+  start: { x: number; y: number };
+  scatter: { x: number; y: number };
+  angle: number;
+  color: string;
+  glow: string;
+};
+
+function polarOffset(angle: number, radius: number) {
+  const radians = (angle * Math.PI) / 180;
+  return {
+    x: Math.cos(radians) * radius,
+    y: Math.sin(radians) * radius,
+  };
+}
+
+const ORBIT_RADIUS = 228;
+
+const ORBIT_ICONS: OrbitIconItem[] = [
+  {
+    label: "Flutter",
+    short: "FL",
+    start: { x: 92, y: -48 },
+    scatter: { x: -150, y: -18 },
+    angle: -90,
+    color: "#54C5F8",
+    glow: "84, 197, 248",
+  },
+  {
+    label: "Swift",
+    short: "SW",
+    start: { x: 105, y: 8 },
+    scatter: { x: 26, y: 164 },
+    angle: -45,
+    color: "#F59E0B",
+    glow: "245, 158, 11",
+  },
+  {
+    label: "Kotlin",
+    short: "KT",
+    start: { x: 68, y: 62 },
+    scatter: { x: -118, y: 134 },
+    angle: 0,
+    color: "#A855F7",
+    glow: "168, 85, 247",
+  },
+  {
+    label: "Native iOS",
+    short: "NI",
+    start: { x: 18, y: 96 },
+    scatter: { x: -74, y: 196 },
+    angle: 45,
+    color: "#34D399",
+    glow: "52, 211, 153",
+  },
+  {
+    label: "MVVM",
+    icon: Workflow,
+    start: { x: 118, y: -92 },
+    scatter: { x: -182, y: -72 },
+    angle: 90,
+    color: "#60A5FA",
+    glow: "96, 165, 250",
+  },
+  {
+    label: "FastAPI",
+    icon: MapPinned,
+    start: { x: 142, y: -18 },
+    scatter: { x: 84, y: 176 },
+    angle: 135,
+    color: "#FB7185",
+    glow: "251, 113, 133",
+  },
+  {
+    label: "Datenbanken",
+    icon: Database,
+    start: { x: 98, y: 104 },
+    scatter: { x: -194, y: 58 },
+    angle: 180,
+    color: "#2DD4BF",
+    glow: "45, 212, 191",
+  },
+  {
+    label: "Riverpod",
+    icon: AppWindow,
+    start: { x: 42, y: -110 },
+    scatter: { x: -112, y: -148 },
+    angle: 225,
+    color: "#FBBF24",
+    glow: "251, 191, 36",
+  },
 ];
 
 /* ── Animated counter ────────────────────────────────────────────────────── */
@@ -47,183 +145,7 @@ function AnimatedStat({ value, suffix, label, color, delay }: {
   );
 }
 
-/* ── Sunglasses overlay (scroll-driven cinematic animation) ──────────────── */
-function SunglassesOverlay({ progress }: { progress: MotionValue<number> }) {
-  // Scroll progress is 0→1 over 200vh section.
-  // Sticky phase = progress 0→0.5 (100vh of scroll, hero pinned).
-  // Glasses animation fires in the very first scroll ticks:
-  //   0.00        idle — no glasses
-  //   0.01→0.03   fade in
-  //   0.03→0.12   drop into position with rotation
-  //   0.12→0.16   overshoot + settle
-  //   0.16→0.24   shine sweep
-  //   0.24+       glasses fixed in place
 
-  const y = useTransform(
-    progress,
-    [0, 0.01, 0.11, 0.14, 0.16],
-    ["-220%", "-220%", "6%", "-3%", "0%"],
-  );
-  const opacity = useTransform(progress, [0, 0.01, 0.04], [0, 0, 1]);
-  const rotate = useTransform(
-    progress,
-    [0, 0.01, 0.10, 0.14, 0.16],
-    [-14, -14, 2.5, -1, 0],
-  );
-  const scaleVal = useTransform(
-    progress,
-    [0, 0.01, 0.11, 0.14, 0.16],
-    [0.65, 0.65, 1.06, 0.97, 1],
-  );
-
-  // Shine sweep after landing
-  const shineX = useTransform(progress, [0.16, 0.26], ["-100%", "300%"]);
-  const shineOpacity = useTransform(progress, [0.16, 0.18, 0.23, 0.26], [0, 0.65, 0.65, 0]);
-
-  // Subtle glow bloom
-  const glowOpacity = useTransform(progress, [0.14, 0.22], [0, 0.3]);
-
-  return (
-    <motion.div
-      className="absolute left-0 right-0 pointer-events-none"
-      style={{
-        top: "28%",
-        y,
-        opacity,
-        rotate,
-        scale: scaleVal,
-        transformOrigin: "center 40%",
-        filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.45))",
-      }}
-    >
-      <div className="relative mx-auto" style={{ width: "50%" }}>
-        {/* ── SVG Apple Vision Pro ── */}
-        <svg
-          viewBox="0 0 320 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-auto"
-          aria-hidden="true"
-        >
-          <defs>
-            {/* Main body gradient — polished aluminium */}
-            <linearGradient id="vp-body" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#e8e8ed" />
-              <stop offset="30%" stopColor="#d1d1d6" />
-              <stop offset="70%" stopColor="#b0b0ba" />
-              <stop offset="100%" stopColor="#8e8e99" />
-            </linearGradient>
-            {/* Visor glass gradient */}
-            <linearGradient id="vp-glass" x1="0.1" y1="0" x2="0.5" y2="1">
-              <stop offset="0%" stopColor="#2c2c3a" stopOpacity={0.95} />
-              <stop offset="40%" stopColor="#1a1a28" stopOpacity={0.98} />
-              <stop offset="100%" stopColor="#0d0d18" stopOpacity={1} />
-            </linearGradient>
-            {/* Glass reflection */}
-            <linearGradient id="vp-reflect" x1="0" y1="0" x2="0.6" y2="1">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity={0.12} />
-              <stop offset="50%" stopColor="#aabbdd" stopOpacity={0.04} />
-              <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
-            </linearGradient>
-            {/* Edge highlight */}
-            <linearGradient id="vp-edge" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity={0.3} />
-              <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-
-          {/* Main body — continuous curved visor shape */}
-          <path
-            d="M28 18 C28 10, 36 4, 60 4 L260 4 C284 4, 292 10, 292 18 L292 52 C292 64, 280 72, 260 72 L60 72 C40 72, 28 64, 28 52 Z"
-            fill="url(#vp-body)"
-            stroke="#9a9aa8"
-            strokeWidth="0.8"
-          />
-
-          {/* Top edge highlight */}
-          <path
-            d="M60 4.5 L260 4.5 C283 4.5, 291 10, 291 18"
-            fill="none"
-            stroke="url(#vp-edge)"
-            strokeWidth="1"
-          />
-
-          {/* Glass visor — single continuous panel */}
-          <path
-            d="M38 20 C38 14, 44 9, 62 9 L258 9 C276 9, 282 14, 282 20 L282 48 C282 57, 274 64, 258 64 L62 64 C46 64, 38 57, 38 48 Z"
-            fill="url(#vp-glass)"
-            stroke="#555566"
-            strokeWidth="0.6"
-          />
-
-          {/* Glass reflection overlay */}
-          <path
-            d="M38 20 C38 14, 44 9, 62 9 L258 9 C276 9, 282 14, 282 20 L282 48 C282 57, 274 64, 258 64 L62 64 C46 64, 38 57, 38 48 Z"
-            fill="url(#vp-reflect)"
-          />
-
-          {/* Subtle nose bridge indent */}
-          <path
-            d="M148 64 C152 70, 156 73, 160 73 C164 73, 168 70, 172 64"
-            fill="none"
-            stroke="#7a7a8a"
-            strokeWidth="0.8"
-            opacity={0.5}
-          />
-
-          {/* Side cushion/strap attachment — left */}
-          <path
-            d="M28 28 C22 28, 16 32, 14 38 C12 44, 16 50, 22 52 L28 52"
-            fill="url(#vp-body)"
-            stroke="#9a9aa8"
-            strokeWidth="0.6"
-          />
-
-          {/* Side cushion/strap attachment — right */}
-          <path
-            d="M292 28 C298 28, 304 32, 306 38 C308 44, 304 50, 298 52 L292 52"
-            fill="url(#vp-body)"
-            stroke="#9a9aa8"
-            strokeWidth="0.6"
-          />
-
-          {/* Digital Crown — right side */}
-          <rect x="299" y="30" width="5" height="14" rx="2.5" fill="#b0b0ba" stroke="#8e8e99" strokeWidth="0.5" />
-
-          {/* Front sensor array — subtle dots */}
-          <circle cx="55" cy="36" r="2.5" fill="#222233" stroke="#444455" strokeWidth="0.4" opacity={0.7} />
-          <circle cx="265" cy="36" r="2.5" fill="#222233" stroke="#444455" strokeWidth="0.4" opacity={0.7} />
-          <circle cx="160" cy="11" r="1.5" fill="#333344" opacity={0.5} />
-        </svg>
-
-        {/* ── Animated shine sweep across visor ── */}
-        <motion.div
-          className="absolute inset-0 overflow-hidden pointer-events-none"
-          style={{ opacity: shineOpacity }}
-        >
-          <motion.div
-            className="absolute top-[12%] bottom-[18%] w-[10%]"
-            style={{
-              left: shineX,
-              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-              filter: "blur(3px)",
-            }}
-          />
-        </motion.div>
-
-        {/* ── Subtle visor glow ── */}
-        <motion.div
-          className="absolute inset-[-15%] pointer-events-none"
-          style={{
-            opacity: glowOpacity,
-            background: "radial-gradient(ellipse at center, rgba(84,197,248,0.08) 0%, transparent 70%)",
-            filter: "blur(10px)",
-          }}
-        />
-      </div>
-    </motion.div>
-  );
-}
 
 /* ── Developer Mode boot overlay ─────────────────────────────────────────── */
 const DEV_STATUS_LINES = [
@@ -293,22 +215,84 @@ function DevModeOverlay({ progress }: { progress: MotionValue<number> }) {
   );
 }
 
+function OrbitIcon({
+  progress,
+  item,
+}: {
+  progress: MotionValue<number>;
+  item: OrbitIconItem;
+}) {
+  const orbit = polarOffset(item.angle, ORBIT_RADIUS);
+  const x = useTransform(
+    progress,
+    [0, 0.14, 0.3, 0.52, 1],
+    [item.start.x, item.start.x, item.scatter.x, orbit.x, orbit.x],
+  );
+  const y = useTransform(
+    progress,
+    [0, 0.14, 0.3, 0.52, 1],
+    [item.start.y, item.start.y, item.scatter.y, orbit.y, orbit.y],
+  );
+  const opacity = useTransform(progress, [0, 0.08, 0.12, 0.7, 1], [0, 0, 1, 1, 0.92]);
+  const scale = useTransform(progress, [0, 0.14, 0.3, 0.52, 1], [0.25, 0.7, 0.95, 1, 1.02]);
+  const rotate = useTransform(progress, [0, 0.14, 0.3, 0.52, 1], [-18, -6, 8, 0, 0]);
+
+  const Icon = item.icon;
+
+  return (
+    <motion.div
+      className="absolute left-1/2 top-1/2 z-30"
+      style={{ x, y, opacity, scale, rotate, translateX: "-50%", translateY: "-50%" }}
+    >
+      <div className="relative">
+        <div
+          className="absolute inset-x-3 inset-y-1 rounded-full blur-xl"
+          style={{
+            background: `radial-gradient(circle, rgba(${item.glow}, 0.34) 0%, rgba(${item.glow}, 0.18) 42%, rgba(${item.glow}, 0.05) 72%, transparent 100%)`,
+            transform: "scale(1.05, 0.92)",
+          }}
+        />
+        <div
+          className="relative flex w-[160px] items-center justify-center gap-2 rounded-full border px-3 py-2 backdrop-blur-md"
+          style={{
+            borderColor: `rgba(${item.glow}, 0.34)`,
+            background: `linear-gradient(135deg, rgba(10, 14, 24, 0.88), rgba(${item.glow}, 0.18))`,
+            boxShadow: `0 14px 28px rgba(6, 10, 18, 0.34), 0 0 0 1px rgba(${item.glow}, 0.1), 0 0 28px rgba(${item.glow}, 0.26), 0 0 54px rgba(${item.glow}, 0.14)`,
+          }}
+        >
+          <span
+            className="flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-mono font-semibold tracking-[0.18em]"
+            style={{
+              color: item.color,
+              background: `rgba(${item.glow}, 0.14)`,
+              boxShadow: `inset 0 0 0 1px rgba(${item.glow}, 0.2), 0 0 16px rgba(${item.glow}, 0.16)`,
+            }}
+          >
+            {Icon ? <Icon size={14} strokeWidth={1.9} /> : item.short}
+          </span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.22em]" style={{ color: "rgba(233, 237, 244, 0.92)", textShadow: `0 0 12px rgba(${item.glow}, 0.2)` }}>
+            {item.label}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function TechOrbit({ progress }: { progress: MotionValue<number> }) {
+  return (
+    <div className="absolute inset-0 pointer-events-none">
+      {ORBIT_ICONS.map((item) => (
+        <OrbitIcon key={item.label} progress={progress} item={item} />
+      ))}
+    </div>
+  );
+}
+
 /* ── Hero ring (animated SVG) ────────────────────────────────────────────── */
 function HeroRing({ progress }: { progress: MotionValue<number> }) {
   const rotate = useTransform(progress, [0, 1], [0, 180]);
   const scale = useTransform(progress, [0, 0.4, 1], [1, 1.05, 0.9]);
-
-  // Ring pulse after sunglasses land (~0.24–0.30)
-  const ringPulseScale = useTransform(
-    progress,
-    [0.23, 0.25, 0.27, 0.29, 0.31],
-    [1, 1.08, 0.97, 1.04, 1],
-  );
-  const ringPulseOpacity = useTransform(
-    progress,
-    [0.23, 0.25, 0.29, 0.31],
-    [0, 0.6, 0.6, 0],
-  );
 
   return (
     <motion.div
@@ -318,41 +302,22 @@ function HeroRing({ progress }: { progress: MotionValue<number> }) {
       {/* Profile photo — clear image */}
       <div className="absolute inset-0 flex items-center justify-center" style={{ pointerEvents: "none" }}>
         <div
-          className="rounded-full overflow-hidden"
+          className="relative rounded-full overflow-hidden"
           style={{ width: "54%", height: "54%", pointerEvents: "auto" }}
         >
-          <img
+          <Image
             src="/img/images/marco_grimme.png"
             alt="Marco Grimme"
-            className="w-full h-full object-cover"
+            fill
+            sizes="(min-width: 768px) 302px, 259px"
+            className="object-cover"
             draggable={false}
           />
         </div>
       </div>
-      {/* Sunglasses overlay — floats above photo, not clipped to circle */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 5 }}>
-        <div className="relative" style={{ width: "54%", height: "54%" }}>
-          <SunglassesOverlay progress={progress} />
-        </div>
-      </div>
-      {/* Ring pulse glow */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
-        style={{
-          scale: ringPulseScale,
-          opacity: ringPulseOpacity,
-        }}
-      >
-        <div
-          className="rounded-full"
-          style={{
-            width: "56%",
-            height: "56%",
-            border: "2px solid rgba(84,197,248,0.5)",
-            boxShadow: "0 0 30px rgba(84,197,248,0.25), inset 0 0 30px rgba(84,197,248,0.1)",
-          }}
-        />
-      </motion.div>
+
+      <TechOrbit progress={progress} />
+
       <svg viewBox="0 0 500 500" className="w-full h-full max-w-[500px] max-h-[500px]" suppressHydrationWarning>
         {/* Outer ring - multicolor arc */}
         <motion.circle
@@ -434,10 +399,10 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Section is 200vh: progress 0→0.5 = sticky phase (hero pinned), 0.5→1 = scrolls away
-  const textY = useTransform(scrollYProgress, [0, 0.5, 1], ["0%", "0%", "-25%"]);
+  // Section is slightly longer so the hero stays pinned a bit more before scrolling away
+  const textY = useTransform(scrollYProgress, [0, 0.76, 1], ["0%", "0%", "-25%"]);
   const ringProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 0.9], [1, 1, 0]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.78, 0.97], [1, 1, 0]);
 
   const wordVariants: Variants = {
     hidden: { opacity: 0, y: "110%", rotateX: -30 },
@@ -458,7 +423,7 @@ export default function Hero() {
       ref={ref}
       className="relative grid-dots theme-transition"
       id="hero"
-      style={{ background: "var(--c-bg)", height: "200vh" }}
+      style={{ background: "var(--c-bg)", height: "285vh" }}
     >
      {/* Sticky wrapper — pins the hero in place during sunglasses animation */}
      <div className="sticky top-0 h-screen flex flex-col overflow-hidden">
